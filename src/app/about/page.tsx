@@ -4,9 +4,9 @@ import Link from "next/link";
 import { ShieldCheck, Compass, Sparkles, Building2 } from "lucide-react";
 
 export const metadata = {
-  title: "About Tesacola Empire Nigeria | Philosophy & Origins",
+  title: "About | Philosophy & Origins",
   description:
-    "Discover the vision of Tesacola Empire Nigeria. Building an uncompromising standard of Nigerian leather craftsmanship and commercial manufacturing for the world.",
+    "Discover the vision of Tesacola Empire. Building an uncompromising standard of Nigerian leather craftsmanship and commercial manufacturing for the world.",
 };
 
 export default function AboutPage() {
@@ -22,7 +22,7 @@ export default function AboutPage() {
             Building Our Own World
           </h1>
           <p className="mt-4 text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
-            Tesacola Empire Nigeria was born to prove that African industrial craftsmanship and bespoke luxury do not need foreign validation. We build footwear, executive leather portfolios, and commercial goods that set their own benchmark.
+            Tesacola Empire was born to prove that African industrial craftsmanship and bespoke luxury do not need foreign validation. We build footwear, executive leather portfolios, and commercial goods that set their own benchmark.
           </p>
         </div>
 

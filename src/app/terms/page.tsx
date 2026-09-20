@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Terms of Service | Tesacola Empire Nigeria",
+  title: "Terms of Service",
   description: "Official terms of service governing retail commerce, custom commissions, and commercial manufacturing.",
 };
 
@@ -18,7 +18,7 @@ export default function TermsPage() {
             Terms of Service
           </h1>
           <p className="mt-4 text-sm text-neutral-300 font-light leading-relaxed">
-            Please review the contractual terms governing purchases, bespoke commissions, and manufacturing runs conducted with Tesacola Empire Nigeria.
+            Please review the contractual terms governing purchases, bespoke commissions, and manufacturing runs conducted with Tesacola Empire.
           </p>
         </div>
 
@@ -26,7 +26,7 @@ export default function TermsPage() {
           <section className="space-y-2">
             <h2 className="font-serif text-lg text-white font-medium">1. Brand Ownership &amp; Intellectual Property</h2>
             <p>
-              The name &ldquo;Tesacola Empire Nigeria&rdquo;, the official circular globe and pillar crest, typography, photography, shoe last designs, and editorial texts are protected by intellectual property laws. Unauthorized reproduction or commercial impersonation is prohibited.
+              The name &ldquo;Tesacola Empire&rdquo;, the official circular globe and pillar crest, typography, photography, shoe last designs, and editorial texts are protected by intellectual property laws. Unauthorized reproduction or commercial impersonation is prohibited.
             </p>
           </section>
 

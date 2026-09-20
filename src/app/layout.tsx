@@ -23,12 +23,13 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
   title: {
-    default: "Tesacola Empire Nigeria | Premium Leather Craftsmanship & Manufacturing",
-    template: "%s | Tesacola Empire Nigeria",
+    default: "Tesacola Empire | Premium Leather Craftsmanship & Manufacturing",
+    template: "%s | Tesacola Empire",
   },
   description:
-    "Official digital platform for Tesacola Empire Nigeria. Artisanal handcrafted footwear, executive briefcases, belts, and industrial leather manufacturing. Enjoying Trust & Quality.",
+    "Official digital platform for Tesacola Empire. Artisanal handcrafted footwear, executive briefcases, belts, and industrial leather manufacturing. Enjoying Trust & Quality.",
   keywords: [
+    "Tesacola Empire",
     "Tesacola Empire Nigeria",
     "Nigerian Leather Footwear",
     "Wholecut Oxford Shoes",
@@ -37,18 +38,18 @@ export const metadata: Metadata = {
     "Made in Nigeria Luxury",
     "Bespoke Shoemaking",
   ],
-  authors: [{ name: "Tesacola Empire Nigeria" }],
+  authors: [{ name: "Tesacola Empire" }],
   openGraph: {
-    title: "Tesacola Empire Nigeria | Premium Leather Craftsmanship",
+    title: "Tesacola Empire | Premium Leather Craftsmanship",
     description: "Enjoying Trust & Quality. Discover our handcrafted footwear and commercial leather manufacturing.",
     url: "https://tesacola.com",
-    siteName: "Tesacola Empire Nigeria",
+    siteName: "Tesacola Empire",
     images: [
       {
         url: "/tesacol_logo.png",
         width: 800,
         height: 800,
-        alt: "Tesacola Empire Nigeria Official Crest",
+        alt: "Tesacola Empire Official Crest",
       },
     ],
     locale: "en_NG",

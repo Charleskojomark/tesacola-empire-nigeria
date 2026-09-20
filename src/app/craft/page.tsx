@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Scissors, Hammer, Layers, Sparkles, ShieldCheck, Check } from "lucide-react";
 
 export const metadata = {
-  title: "The Craft & Method | Tesacola Empire Nigeria",
+  title: "The Craft & Method",
   description:
     "An editorial breakdown of the artisanal and industrial leather shoemaking processes at Tesacola: raw material grading, anatomical lasting, Blake-welting, and edge burnishing.",
 };

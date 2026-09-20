@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ShieldCheck, RefreshCw, AlertCircle } from "lucide-react";
 
 export const metadata = {
-  title: "Returns & Exchanges Policy | Tesacola Empire Nigeria",
+  title: "Returns & Exchanges Policy",
   description:
     "Exchange guidelines, condition requirements, and size adjustment protocols for Tesacola handcrafted footwear and leather products.",
 };

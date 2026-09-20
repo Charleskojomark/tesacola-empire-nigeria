@@ -18,7 +18,7 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <Image
                 src="/tesacol_logo.png"
-                alt="Tesacola Empire Nigeria"
+                alt="Tesacola Empire"
                 width={52}
                 height={52}
                 className="object-contain filter brightness-110"
@@ -28,7 +28,7 @@ export function Footer() {
                   Tesacola
                 </span>
                 <span className="text-[10px] tracking-[0.28em] text-[#d6be67] uppercase -mt-1 font-light">
-                  Empire Nigeria
+                  Empire
                 </span>
               </div>
             </div>
@@ -115,7 +115,7 @@ export function Footer() {
             &ldquo;Tesacola is building its own world.&rdquo;
           </p>
           <div className="flex items-center space-x-6 text-[11px]">
-            <span>&copy; {new Date().getFullYear()} Tesacola Empire Nigeria. All rights reserved.</span>
+            <span>&copy; {new Date().getFullYear()} Tesacola Empire. All rights reserved.</span>
             <Link href="/admin/login" className="text-neutral-600 hover:text-neutral-400 transition-colors">
               Internal Portal
             </Link>

@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     title: product.name,
     description: product.shortDescription,
     openGraph: {
-      title: `${product.name} | Tesacola Empire Nigeria`,
+      title: `${product.name} | Tesacola Empire`,
       description: product.shortDescription,
       images: [
         {
@@ -56,7 +56,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     sku: product.sku,
     brand: {
       "@type": "Brand",
-      name: "Tesacola Empire Nigeria",
+      name: "Tesacola Empire",
     },
     offers: {
       "@type": "Offer",

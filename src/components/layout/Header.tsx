@@ -67,7 +67,7 @@ export function Header() {
             <div className="relative w-10 h-10 sm:w-12 sm:h-12 overflow-hidden flex items-center justify-center">
               <Image
                 src="/tesacol_logo.png"
-                alt="Tesacola Empire Nigeria Crest"
+                alt="Tesacola Empire Crest"
                 width={48}
                 height={48}
                 priority
@@ -79,7 +79,7 @@ export function Header() {
                 Tesacola
               </span>
               <span className="text-[9px] tracking-[0.25em] text-[#d6be67] font-light uppercase -mt-1">
-                Empire Nigeria
+                Empire
               </span>
             </div>
           </Link>
@@ -201,9 +201,14 @@ export function Header() {
                   height={36}
                   className="object-contain"
                 />
-                <span className="font-serif text-lg text-white font-medium tracking-wider uppercase">
-                  Tesacola
-                </span>
+                <div className="flex flex-col">
+                  <span className="font-serif text-base text-white font-medium tracking-wider uppercase leading-none">
+                    Tesacola
+                  </span>
+                  <span className="text-[9px] tracking-[0.22em] text-[#d6be67] font-light uppercase">
+                    Empire
+                  </span>
+                </div>
               </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -242,7 +247,7 @@ export function Header() {
                   Enjoying Trust & Quality
                 </p>
                 <p className="text-[10px] text-neutral-500 mt-1">
-                  Tesacola Empire Nigeria
+                  Tesacola Empire
                 </p>
               </div>
             </div>

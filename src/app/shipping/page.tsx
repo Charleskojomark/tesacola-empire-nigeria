@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Clock, Truck, ShieldCheck, Globe2 } from "lucide-react";
 
 export const metadata = {
-  title: "Shipping & Fulfillment Logistics | Tesacola Empire Nigeria",
+  title: "Shipping & Fulfillment Logistics",
   description:
     "Fulfillment schedules, production timelines, insured courier transit, and international delivery policies for Tesacola leather products.",
 };

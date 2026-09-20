@@ -2,8 +2,8 @@ import React from "react";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Privacy Policy | Tesacola Empire Nigeria",
-  description: "Official privacy and data governance framework for Tesacola Empire Nigeria.",
+  title: "Privacy Policy",
+  description: "Official privacy and data governance framework for Tesacola Empire.",
 };
 
 export default function PrivacyPage() {
@@ -18,7 +18,7 @@ export default function PrivacyPage() {
             Privacy Policy
           </h1>
           <p className="mt-4 text-sm text-neutral-300 font-light leading-relaxed">
-            Effective Date: September 2026. Tesacola Empire Nigeria treats your client records and commercial designs with absolute confidentiality.
+            Effective Date: September 2026. Tesacola Empire treats your client records and commercial designs with absolute confidentiality.
           </p>
         </div>
 

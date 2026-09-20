@@ -6,7 +6,7 @@ import { Factory, Sparkles, Building2, Globe2, Briefcase, CheckCircle2 } from "l
 export const metadata = {
   title: "Commercial Partnerships, Manufacturing & Wholesale",
   description:
-    "Partner with Tesacola Empire Nigeria for commercial leather manufacturing, private-label brand production, wholesale distribution, and corporate bespoke orders.",
+    "Partner with Tesacola Empire for commercial leather manufacturing, private-label brand production, wholesale distribution, and corporate bespoke orders.",
 };
 
 export default async function BusinessPage({

@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react";
 export const metadata = {
   title: "The Journal | Essays on Craft, Leather & Industry",
   description:
-    "Editorial writings, material studies, and manufacturing chronicles from the master craftsmen at Tesacola Empire Nigeria.",
+    "Editorial writings, material studies, and manufacturing chronicles from the master craftsmen at Tesacola Empire.",
 };
 
 export default async function JournalPage() {

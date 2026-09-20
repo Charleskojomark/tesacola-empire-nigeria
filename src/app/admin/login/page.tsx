@@ -46,7 +46,7 @@ export default function AdminLoginPage() {
             />
           </div>
           <h1 className="font-serif text-2xl font-light text-white tracking-wide">
-            TESACOLA EMPIRE NIGERIA
+            TESACOLA EMPIRE
           </h1>
           <p className="text-xs text-[#d6be67] tracking-widest uppercase mt-1">
             Administrative Control Console

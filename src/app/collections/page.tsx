@@ -4,7 +4,7 @@ import Image from "next/image";
 import { dbRepository } from "@/db";
 
 export const metadata = {
-  title: "Curated Collections | Tesacola Empire Nigeria",
+  title: "Curated Collections",
   description:
     "Explore Tesacola's curated editorial collections: The Executive Collection, The Heritage Collection, The Travel Collection, and The Occasion Collection.",
 };

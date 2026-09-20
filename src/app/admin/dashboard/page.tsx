@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Admin Dashboard | Tesacola Empire Nigeria",
+  title: "Admin Dashboard",
 };
 
 export default async function AdminDashboardPage() {
