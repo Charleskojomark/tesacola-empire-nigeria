@@ -116,9 +116,6 @@ export function Footer() {
           </p>
           <div className="flex items-center space-x-6 text-[11px]">
             <span>&copy; {new Date().getFullYear()} Tesacola Empire. All rights reserved.</span>
-            <Link href="/admin/login" className="text-neutral-600 hover:text-neutral-400 transition-colors">
-              Internal Portal
-            </Link>
           </div>
         </div>
       </div>

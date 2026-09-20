@@ -71,8 +71,8 @@ export default function AdminLoginPage() {
                   type="email"
                   name="email"
                   required
-                  defaultValue="admin@tesacola.com"
                   placeholder="admin@tesacola.com"
+                  autoComplete="email"
                   className="w-full bg-[#0d1117] border border-[#30363d] focus:border-[#d6be67] pl-10 pr-3 py-2.5 text-xs text-white placeholder-neutral-600 rounded focus:outline-none"
                 />
                 <Mail className="w-4 h-4 text-neutral-500 absolute left-3 top-3" />
@@ -88,8 +88,8 @@ export default function AdminLoginPage() {
                   type="password"
                   name="password"
                   required
-                  defaultValue="TesacolaAdmin2026!"
                   placeholder="••••••••••••"
+                  autoComplete="current-password"
                   className="w-full bg-[#0d1117] border border-[#30363d] focus:border-[#d6be67] pl-10 pr-3 py-2.5 text-xs text-white placeholder-neutral-600 rounded focus:outline-none"
                 />
                 <Lock className="w-4 h-4 text-neutral-500 absolute left-3 top-3" />
@@ -113,10 +113,6 @@ export default function AdminLoginPage() {
               </button>
             </div>
           </form>
-
-          <div className="mt-6 pt-4 border-t border-[#30363d] text-[11px] text-neutral-500 text-center">
-            Development Master Credentials: <code className="text-neutral-400">admin@tesacola.com</code>
-          </div>
         </div>
       </div>
     </div>

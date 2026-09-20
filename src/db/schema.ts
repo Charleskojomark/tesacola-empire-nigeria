@@ -4,19 +4,16 @@ import {
   integer,
   boolean,
   timestamp,
-  numeric,
   jsonb,
-  uuid,
   index,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
 
 // 1. Users & Roles
 export const users = pgTable(
   "users",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
+    id: text("id").primaryKey(),
     email: text("email").notNull().unique(),
     passwordHash: text("password_hash").notNull(),
     name: text("name").notNull(),
@@ -34,8 +31,8 @@ export const users = pgTable(
 
 // 2. Customer Addresses
 export const addresses = pgTable("addresses", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
+  id: text("id").primaryKey(),
+  userId: text("user_id")
     .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
   fullName: text("full_name").notNull(),
@@ -54,12 +51,12 @@ export const addresses = pgTable("addresses", {
 export const categories = pgTable(
   "categories",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
+    id: text("id").primaryKey(),
     name: text("name").notNull(),
     slug: text("slug").notNull().unique(),
     description: text("description"),
     image: text("image"),
-    parentId: uuid("parent_id"),
+    parentId: text("parent_id"),
     sortOrder: integer("sort_order").default(0).notNull(),
     isActive: boolean("is_active").default(true).notNull(),
     seoTitle: text("seo_title"),
@@ -76,7 +73,7 @@ export const categories = pgTable(
 export const collections = pgTable(
   "collections",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
+    id: text("id").primaryKey(),
     name: text("name").notNull(),
     slug: text("slug").notNull().unique(),
     description: text("description"),
@@ -97,7 +94,7 @@ export const collections = pgTable(
 export const products = pgTable(
   "products",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
+    id: text("id").primaryKey(),
     name: text("name").notNull(),
     slug: text("slug").notNull().unique(),
     sku: text("sku").notNull().unique(),
@@ -107,7 +104,7 @@ export const products = pgTable(
     material: text("material"),
     colour: text("colour"),
     construction: text("construction"),
-    price: integer("price").notNull(), // stored in minor units or whole integers
+    price: integer("price").notNull(),
     currency: text("currency").default("NGN").notNull(),
     status: text("status", {
       enum: ["IN_STOCK", "MADE_TO_ORDER", "PRE_ORDER", "UNAVAILABLE"],
@@ -117,10 +114,10 @@ export const products = pgTable(
     careInstructions: text("care_instructions"),
     isFeatured: boolean("is_featured").default(false).notNull(),
     isPublished: boolean("is_published").default(true).notNull(),
-    categoryId: uuid("category_id")
+    categoryId: text("category_id")
       .references(() => categories.id)
       .notNull(),
-    subcategoryId: uuid("subcategory_id"),
+    subcategoryId: text("subcategory_id"),
     seoTitle: text("seo_title"),
     seoDescription: text("seo_description"),
     ogImage: text("og_image"),
@@ -135,20 +132,20 @@ export const products = pgTable(
 
 // 6. Collection Products
 export const collectionProducts = pgTable("collection_products", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  collectionId: uuid("collection_id")
+  id: text("id").primaryKey(),
+  collectionId: text("collection_id")
     .references(() => collections.id, { onDelete: "cascade" })
     .notNull(),
-  productId: uuid("product_id")
+  productId: text("product_id")
     .references(() => products.id, { onDelete: "cascade" })
     .notNull(),
   sortOrder: integer("sort_order").default(0).notNull(),
 });
 
-// 7. Product Variants (Sizes, colours, individual SKU inventory)
+// 7. Product Variants
 export const productVariants = pgTable("product_variants", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  productId: uuid("product_id")
+  id: text("id").primaryKey(),
+  productId: text("product_id")
     .references(() => products.id, { onDelete: "cascade" })
     .notNull(),
   name: text("name").notNull(),
@@ -164,8 +161,8 @@ export const productVariants = pgTable("product_variants", {
 
 // 8. Product Images
 export const productImages = pgTable("product_images", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  productId: uuid("product_id")
+  id: text("id").primaryKey(),
+  productId: text("product_id")
     .references(() => products.id, { onDelete: "cascade" })
     .notNull(),
   url: text("url").notNull(),
@@ -179,9 +176,9 @@ export const productImages = pgTable("product_images", {
 export const orders = pgTable(
   "orders",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
+    id: text("id").primaryKey(),
     orderNumber: text("order_number").notNull().unique(),
-    userId: uuid("user_id").references(() => users.id),
+    userId: text("user_id").references(() => users.id),
     customerName: text("customer_name").notNull(),
     customerEmail: text("customer_email").notNull(),
     customerPhone: text("customer_phone").notNull(),
@@ -219,12 +216,12 @@ export const orders = pgTable(
 
 // 10. Order Items
 export const orderItems = pgTable("order_items", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  orderId: uuid("order_id")
+  id: text("id").primaryKey(),
+  orderId: text("order_id")
     .references(() => orders.id, { onDelete: "cascade" })
     .notNull(),
-  productId: uuid("product_id").references(() => products.id),
-  variantId: uuid("variant_id"),
+  productId: text("product_id").references(() => products.id),
+  variantId: text("variant_id"),
   productName: text("product_name").notNull(),
   variantName: text("variant_name"),
   unitPrice: integer("unit_price").notNull(),
@@ -236,8 +233,8 @@ export const orderItems = pgTable("order_items", {
 
 // 11. Payments
 export const payments = pgTable("payments", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  orderId: uuid("order_id")
+  id: text("id").primaryKey(),
+  orderId: text("order_id")
     .references(() => orders.id, { onDelete: "cascade" })
     .notNull(),
   reference: text("reference").notNull().unique(),
@@ -254,7 +251,7 @@ export const payments = pgTable("payments", {
 
 // 12. Custom Enquiries
 export const customEnquiries = pgTable("custom_enquiries", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: text("id").primaryKey(),
   referenceNumber: text("reference_number").notNull().unique(),
   customerName: text("customer_name").notNull(),
   email: text("email").notNull(),
@@ -287,7 +284,7 @@ export const customEnquiries = pgTable("custom_enquiries", {
 
 // 13. Business / B2B Enquiries
 export const businessEnquiries = pgTable("business_enquiries", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: text("id").primaryKey(),
   referenceNumber: text("reference_number").notNull().unique(),
   contactName: text("contact_name").notNull(),
   businessName: text("business_name").notNull(),
@@ -321,7 +318,7 @@ export const businessEnquiries = pgTable("business_enquiries", {
 
 // 14. Journal Posts
 export const journalPosts = pgTable("journal_posts", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: text("id").primaryKey(),
   title: text("title").notNull(),
   slug: text("slug").notNull().unique(),
   excerpt: text("excerpt").notNull(),
@@ -341,7 +338,7 @@ export const journalPosts = pgTable("journal_posts", {
 
 // 15. FAQs
 export const faqs = pgTable("faqs", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: text("id").primaryKey(),
   question: text("question").notNull(),
   answer: text("answer").notNull(),
   category: text("category").notNull(),
@@ -351,9 +348,9 @@ export const faqs = pgTable("faqs", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-// 16. Site Content (CMS key-value documents)
+// 16. Site Content (CMS documents)
 export const siteContent = pgTable("site_content", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: text("id").primaryKey(),
   key: text("key").notNull().unique(),
   section: text("section").notNull(),
   content: jsonb("content").notNull(),
@@ -362,7 +359,7 @@ export const siteContent = pgTable("site_content", {
 
 // 17. Admin Audit Logs
 export const adminAuditLogs = pgTable("admin_audit_logs", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: text("id").primaryKey(),
   userId: text("user_id").notNull(),
   userEmail: text("user_email").notNull(),
   action: text("action").notNull(),
