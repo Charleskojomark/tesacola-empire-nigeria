@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --obsidian: #000000;
+    --pure-white: #ffffff;
+    --soft-ivory: #f7f4ea;
+    --champagne: #d6be67;
+    --champagne-light: #f4e996;
+    --champagne-dark: #ac8d3e;
+    
+    --bg-primary: #000000;
+    --bg-secondary: #0a0a0a;
+    --bg-card: #121212;
+    --bg-ivory: #f7f4ea;
+    
+    --border-gold: rgba(214, 190, 103, 0.28);
+    --border-gold-subtle: rgba(214, 190, 103, 0.14);
+    --border-dark: #1f1f1f;
+    --border-light: #e5e0d3;
+    
+    --text-primary: #ffffff;
+    --text-secondary: #a3a3a3;
+    --text-muted: #737373;
+    --text-gold: #d6be67;
+    --text-dark: #111111;
+  }
+
+  * {
+    border-color: var(--border-dark);
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: var(--font-cormorant), Georgia, serif;
+    letter-spacing: -0.015em;
+  }
+}
+
+/* Luxury Accents and Editorial Utilities */
+.gold-glow {
+  box-shadow: 0 0 25px rgba(214, 190, 103, 0.18);
+}
+
+.gold-border-fine {
+  border: 1px solid rgba(214, 190, 103, 0.25);
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #f4e996 0%, #d6be67 50%, #ac8d3e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-bg {
+  background: linear-gradient(135deg, #f4e996 0%, #d6be67 50%, #ac8d3e 100%);
+}
+
+.gold-gradient-subtle {
+  background: linear-gradient(180deg, rgba(214, 190, 103, 0.08) 0%, rgba(214, 190, 103, 0.01) 100%);
+}
+
+/* Custom luxury scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d6be67;
+}
+
+/* Subtle transitions */
+.transition-luxury {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
