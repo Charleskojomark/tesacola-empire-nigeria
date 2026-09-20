@@ -945,6 +945,7 @@ function rowToOrder(r: any): Order {
     shippingAddress: r.shipping_address, subtotal: r.subtotal, shippingFee: r.shipping_fee,
     tax: r.tax, total: r.total, currency: r.currency, paymentStatus: r.payment_status,
     orderStatus: r.order_status, trackingNumber: r.tracking_number, notes: r.notes,
+    items: [],
     createdAt: r.created_at?.toISOString?.() || r.created_at,
     updatedAt: r.updated_at?.toISOString?.() || r.updated_at,
   };
