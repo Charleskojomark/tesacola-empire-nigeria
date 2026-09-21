@@ -15,19 +15,21 @@ export function Footer() {
         {/* Brand Banner Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-[#1f1f1f]">
           <div className="lg:col-span-5 space-y-6">
-            <div className="flex items-center gap-3">
-              <Image
-                src="/tesacol_logo.png"
-                alt="Tesacola Empire"
-                width={52}
-                height={52}
-                className="object-contain filter brightness-110"
-              />
-              <div className="flex flex-col">
-                <span className="font-serif text-xl sm:text-2xl font-medium tracking-[0.16em] uppercase">
+            <div className="flex items-center gap-4">
+              <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 flex items-center justify-center">
+                <Image
+                  src="/tesacol_logo.png"
+                  alt="Tesacola Empire"
+                  width={80}
+                  height={80}
+                  className="object-contain w-full h-full filter brightness-110 drop-shadow-[0_0_12px_rgba(214,190,103,0.3)]"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <span className="font-serif text-2xl sm:text-3xl font-medium tracking-[0.18em] uppercase leading-none">
                   Tesacola
                 </span>
-                <span className="text-[10px] tracking-[0.28em] text-[#d6be67] uppercase -mt-1 font-light">
+                <span className="text-xs sm:text-sm tracking-[0.35em] text-[#d6be67] uppercase font-light mt-1">
                   Empire
                 </span>
               </div>

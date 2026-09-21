@@ -63,22 +63,22 @@ export function Header() {
           </button>
 
           {/* Brand Official Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10 sm:w-12 sm:h-12 overflow-hidden flex items-center justify-center">
+          <Link href="/" className="flex items-center gap-3 sm:gap-4 group">
+            <div className="relative w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 flex items-center justify-center">
               <Image
                 src="/tesacol_logo.png"
                 alt="Tesacola Empire Crest"
-                width={48}
-                height={48}
+                width={64}
+                height={64}
                 priority
-                className="object-contain filter brightness-110 drop-shadow-[0_0_8px_rgba(214,190,103,0.3)] transition-transform duration-500 group-hover:scale-105"
+                className="object-contain w-full h-full filter brightness-110 drop-shadow-[0_0_12px_rgba(214,190,103,0.35)] transition-transform duration-500 group-hover:scale-105"
               />
             </div>
-            <div className="flex flex-col">
-              <span className="font-serif text-lg sm:text-xl font-medium tracking-[0.18em] text-white group-hover:text-[#d6be67] transition-colors uppercase">
+            <div className="flex flex-col justify-center">
+              <span className="font-serif text-xl sm:text-2xl font-medium tracking-[0.18em] sm:tracking-[0.2em] text-white group-hover:text-[#d6be67] transition-colors uppercase leading-none">
                 Tesacola
               </span>
-              <span className="text-[9px] tracking-[0.25em] text-[#d6be67] font-light uppercase -mt-1">
+              <span className="text-[10px] sm:text-[11px] tracking-[0.32em] sm:tracking-[0.36em] text-[#d6be67] font-light uppercase mt-1">
                 Empire
               </span>
             </div>
@@ -193,19 +193,21 @@ export function Header() {
           {/* Drawer Content */}
           <div className="relative w-4/5 max-w-sm bg-black border-r border-[#1f1f1f] h-full flex flex-col z-10 px-6 py-6 overflow-y-auto">
             <div className="flex items-center justify-between pb-6 border-b border-[#1f1f1f]">
-              <div className="flex items-center gap-2">
-                <Image
-                  src="/tesacol_logo.png"
-                  alt="Tesacola"
-                  width={36}
-                  height={36}
-                  className="object-contain"
-                />
-                <div className="flex flex-col">
-                  <span className="font-serif text-base text-white font-medium tracking-wider uppercase leading-none">
+              <div className="flex items-center gap-3">
+                <div className="relative w-12 h-12 flex-shrink-0 flex items-center justify-center">
+                  <Image
+                    src="/tesacol_logo.png"
+                    alt="Tesacola Empire"
+                    width={48}
+                    height={48}
+                    className="object-contain filter brightness-110 drop-shadow-[0_0_8px_rgba(214,190,103,0.3)]"
+                  />
+                </div>
+                <div className="flex flex-col justify-center">
+                  <span className="font-serif text-xl text-white font-medium tracking-[0.18em] uppercase leading-none">
                     Tesacola
                   </span>
-                  <span className="text-[9px] tracking-[0.22em] text-[#d6be67] font-light uppercase">
+                  <span className="text-[10px] tracking-[0.32em] text-[#d6be67] font-light uppercase mt-1">
                     Empire
                   </span>
                 </div>

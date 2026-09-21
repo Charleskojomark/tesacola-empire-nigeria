@@ -210,13 +210,13 @@ export default async function HomePage() {
       {/* 8. Next Steps & Brand Sign-off Call to Action */}
       <section className="bg-[#0f0f0f] text-white py-20 border-t border-[#1f1f1f] text-center">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-          <div className="w-12 h-12 mb-6">
+          <div className="relative w-20 h-20 sm:w-24 sm:h-24 mb-6 flex items-center justify-center">
             <Image
               src="/tesacol_logo.png"
-              alt="Tesacola"
-              width={48}
-              height={48}
-              className="object-contain filter brightness-110"
+              alt="Tesacola Empire Crest"
+              width={96}
+              height={96}
+              className="object-contain w-full h-full filter brightness-110 drop-shadow-[0_0_16px_rgba(214,190,103,0.35)]"
             />
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl text-white font-light mb-4">
