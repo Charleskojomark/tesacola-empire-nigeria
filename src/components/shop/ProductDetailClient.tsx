@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Product, ProductVariant } from "@/types";
+import { Product, ProductVariant, ProductImage } from "@/types";
 import { formatCurrency } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import {
@@ -14,6 +14,8 @@ import {
   Check,
   ShoppingBag,
   Sparkles,
+  Play,
+  Film,
 } from "lucide-react";
 
 export function ProductDetailClient({ product }: { product: Product }) {
@@ -35,6 +37,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
           altText: product.name,
           isMain: true,
           sortOrder: 1,
+          createdAt: new Date().toISOString(),
         },
       ];
 
@@ -44,44 +47,100 @@ export function ProductDetailClient({ product }: { product: Product }) {
     addItem(product, selectedVariant, quantity);
   };
 
+  const isMediaVideo = (item?: { url?: string; mediaType?: string }) => {
+    if (!item?.url) return false;
+    return (
+      item.mediaType === "VIDEO" ||
+      /\.(mp4|webm|mov|ogg)(\?.*)?$/i.test(item.url) ||
+      item.url.startsWith("data:video") ||
+      item.url.includes("youtube.com") ||
+      item.url.includes("vimeo.com")
+    );
+  };
+
+  const activeMedia = images[selectedImageIndex] || images[0];
+  const activeIsVideo = isMediaVideo(activeMedia);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-      {/* Left Column: Image Gallery Stage */}
+      {/* Left Column: Media Gallery Stage (4+ Angles & Videos) */}
       <div className="lg:col-span-7 flex flex-col-reverse md:flex-row gap-4">
         {/* Thumbnails */}
         {images.length > 1 && (
           <div className="flex md:flex-col gap-3 overflow-x-auto md:overflow-y-auto max-h-[600px] scrollbar-none">
-            {images.map((img, idx) => (
-              <button
-                key={img.id}
-                onClick={() => setSelectedImageIndex(idx)}
-                className={`relative w-20 h-24 flex-shrink-0 bg-[#141414] border transition-all ${
-                  selectedImageIndex === idx
-                    ? "border-[#d6be67] opacity-100 ring-1 ring-[#d6be67]"
-                    : "border-[#262626] opacity-60 hover:opacity-100"
-                }`}
-              >
-                <Image
-                  src={img.url}
-                  alt={img.altText || product.name}
-                  fill
-                  className="object-cover"
-                />
-              </button>
-            ))}
+            {images.map((img, idx) => {
+              const isVid = isMediaVideo(img);
+              return (
+                <button
+                  key={img.id || idx}
+                  onClick={() => setSelectedImageIndex(idx)}
+                  className={`relative w-20 h-24 flex-shrink-0 bg-[#141414] border transition-all overflow-hidden ${
+                    selectedImageIndex === idx
+                      ? "border-[#d6be67] opacity-100 ring-1 ring-[#d6be67]"
+                      : "border-[#262626] opacity-60 hover:opacity-100"
+                  }`}
+                  title={img.altText || `Perspective ${idx + 1}`}
+                >
+                  {isVid ? (
+                    <div className="relative w-full h-full bg-neutral-950 flex flex-col items-center justify-center">
+                      <video
+                        src={img.url}
+                        className="w-full h-full object-cover opacity-50"
+                        muted
+                        playsInline
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                        <div className="w-6 h-6 rounded-full bg-[#d6be67] text-black flex items-center justify-center shadow-lg">
+                          <Play className="w-3 h-3 fill-current ml-0.5" />
+                        </div>
+                      </div>
+                      <span className="absolute bottom-1 inset-x-0 text-center text-[8px] font-mono text-[#d6be67] tracking-wider uppercase font-semibold">
+                        VIDEO
+                      </span>
+                    </div>
+                  ) : (
+                    <Image
+                      src={img.url}
+                      alt={img.altText || product.name}
+                      fill
+                      className="object-cover"
+                    />
+                  )}
+                </button>
+              );
+            })}
           </div>
         )}
 
         {/* Main Stage View */}
         <div className="relative aspect-[4/5] flex-1 bg-[#121212] border border-[#1f1f1f] overflow-hidden group">
-          <Image
-            src={images[selectedImageIndex]?.url || images[0].url}
-            alt={images[selectedImageIndex]?.altText || product.name}
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 60vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-          />
+          {activeIsVideo ? (
+            <div className="relative w-full h-full bg-black flex items-center justify-center">
+              <video
+                key={activeMedia.url}
+                src={activeMedia.url}
+                controls
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md px-3 py-1 border border-[#d6be67]/40 text-[10px] uppercase tracking-widest text-[#d6be67] flex items-center gap-1.5 pointer-events-none">
+                <Play className="w-2.5 h-2.5 fill-current" />
+                <span>Motion Reel</span>
+              </div>
+            </div>
+          ) : (
+            <Image
+              src={activeMedia?.url || images[0].url}
+              alt={activeMedia?.altText || product.name}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 60vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+          )}
 
           <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-md px-3 py-1 border border-white/10 text-[10px] uppercase tracking-widest text-[#d6be67]">
             {product.status === "MADE_TO_ORDER"

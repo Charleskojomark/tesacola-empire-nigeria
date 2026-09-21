@@ -126,6 +126,9 @@ export async function adminSaveProduct(productData: Partial<Product> & { name: s
 
     revalidatePath("/shop");
     revalidatePath("/admin/products");
+    if (product.slug) {
+      revalidatePath(`/product/${product.slug}`);
+    }
     return { success: true, product };
   } catch (error: any) {
     return { success: false, error: error.message };

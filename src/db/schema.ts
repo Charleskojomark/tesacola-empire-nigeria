@@ -159,7 +159,7 @@ export const productVariants = pgTable("product_variants", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-// 8. Product Images
+// 8. Product Images & Media
 export const productImages = pgTable("product_images", {
   id: text("id").primaryKey(),
   productId: text("product_id")
@@ -169,6 +169,7 @@ export const productImages = pgTable("product_images", {
   altText: text("alt_text").notNull(),
   isMain: boolean("is_main").default(false).notNull(),
   sortOrder: integer("sort_order").default(0).notNull(),
+  mediaType: text("media_type").default("IMAGE").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

@@ -84,16 +84,26 @@ export default async function AdminProductsPage() {
                           Draft
                         </span>
                       )}
+                      <p className="text-[10px] text-neutral-500 mt-0.5">
+                        {p.images?.length || 0} media assets
+                      </p>
                     </td>
                     <td className="py-3 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/product/${p.slug}`}
                           target="_blank"
-                          className="p-1 text-neutral-400 hover:text-white"
+                          className="p-1 text-neutral-400 hover:text-white transition-colors"
                           title="View Live Store Page"
                         >
                           <Eye className="w-4 h-4" />
+                        </Link>
+                        <Link
+                          href={`/admin/products/${p.id}`}
+                          className="p-1 text-neutral-400 hover:text-[#d6be67] transition-colors"
+                          title="Edit Product & Angles / Videos"
+                        >
+                          <Edit2 className="w-4 h-4" />
                         </Link>
                         <form
                           action={async () => {

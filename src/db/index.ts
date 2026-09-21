@@ -246,6 +246,19 @@ class TesacolaDataRepository {
             ${data.deliveryInfo || ''}, ${data.careInstructions || ''}, ${data.isFeatured}, ${data.isPublished},
             ${data.categoryId}, NOW(), NOW())
         `;
+        if (data.images && data.images.length > 0) {
+          for (let i = 0; i < data.images.length; i++) {
+            const img = data.images[i];
+            const imgId = img.id || `img-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+            const mType = img.mediaType || (img.url?.match(/\.(mp4|webm|mov|ogg)(\?.*)?$/i) || img.url?.startsWith("data:video") ? "VIDEO" : "IMAGE");
+            await neonSql`
+              INSERT INTO product_images (id, product_id, url, alt_text, is_main, sort_order, media_type, created_at)
+              VALUES (${imgId}, ${id}, ${img.url}, ${img.altText || data.name}, ${img.isMain ?? (i === 0)}, ${img.sortOrder ?? (i + 1)}, ${mType}, NOW())
+            `;
+          }
+        }
+        const created = await this.getProductById(id);
+        if (created) return created;
         return { ...data, id, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() } as Product;
       } catch (err) {
         console.error("createProduct DB error:", err);
@@ -267,9 +280,27 @@ class TesacolaDataRepository {
             is_featured = COALESCE(${data.isFeatured ?? null}, is_featured),
             is_published = COALESCE(${data.isPublished ?? null}, is_published),
             short_description = COALESCE(${data.shortDescription ?? null}, short_description),
+            full_description = COALESCE(${data.fullDescription ?? null}, full_description),
+            material = COALESCE(${data.material ?? null}, material),
+            colour = COALESCE(${data.colour ?? null}, colour),
+            construction = COALESCE(${data.construction ?? null}, construction),
+            category_id = COALESCE(${data.categoryId ?? null}, category_id),
+            sku = COALESCE(${data.sku ?? null}, sku),
             updated_at = NOW()
           WHERE id = ${id}
         `;
+        if (data.images && Array.isArray(data.images)) {
+          await neonSql`DELETE FROM product_images WHERE product_id = ${id}`;
+          for (let i = 0; i < data.images.length; i++) {
+            const img = data.images[i];
+            const imgId = img.id || `img-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+            const mType = img.mediaType || (img.url?.match(/\.(mp4|webm|mov|ogg)(\?.*)?$/i) || img.url?.startsWith("data:video") ? "VIDEO" : "IMAGE");
+            await neonSql`
+              INSERT INTO product_images (id, product_id, url, alt_text, is_main, sort_order, media_type, created_at)
+              VALUES (${imgId}, ${id}, ${img.url}, ${img.altText || ''}, ${img.isMain ?? (i === 0)}, ${img.sortOrder ?? (i + 1)}, ${mType}, NOW())
+            `;
+          }
+        }
         return this.getProductById(id);
       } catch (err) {
         console.error("updateProduct DB error:", err);
@@ -912,8 +943,13 @@ function rowToVariant(r: any) {
 
 function rowToImage(r: any) {
   return {
-    id: r.id, productId: r.product_id, url: r.url, altText: r.alt_text,
-    isMain: r.is_main, sortOrder: r.sort_order,
+    id: r.id,
+    productId: r.product_id,
+    url: r.url,
+    altText: r.alt_text,
+    isMain: r.is_main,
+    sortOrder: r.sort_order,
+    mediaType: (r.media_type || (r.url?.match(/\.(mp4|webm|mov|ogg)(\?.*)?$/i) || r.url?.startsWith("data:video") ? "VIDEO" : "IMAGE")) as "IMAGE" | "VIDEO",
     createdAt: r.created_at?.toISOString?.() || r.created_at,
   };
 }

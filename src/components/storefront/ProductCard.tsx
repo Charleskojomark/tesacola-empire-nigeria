@@ -6,12 +6,28 @@ import Link from "next/link";
 import { Product } from "@/types";
 import { formatCurrency } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
-import { Plus } from "lucide-react";
+import { Plus, Play } from "lucide-react";
 
 export function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
-  const mainImage = product.images?.[0]?.url || "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=800&q=80";
-  const hoverImage = product.images?.[1]?.url || mainImage;
+  
+  const isVideoUrl = (url?: string) => {
+    if (!url) return false;
+    return /\.(mp4|webm|mov|ogg)(\?.*)?$/i.test(url) || url.startsWith("data:video");
+  };
+
+  const hasVideo = product.images?.some(
+    (m) => m.mediaType === "VIDEO" || isVideoUrl(m.url)
+  );
+
+  // Preferred image for static thumbnail
+  const firstPhoto = product.images?.find((m) => m.mediaType !== "VIDEO" && !isVideoUrl(m.url))?.url;
+  const firstMedia = product.images?.[0]?.url;
+  const secondPhoto = product.images?.find((m, i) => i > 0 && m.mediaType !== "VIDEO" && !isVideoUrl(m.url))?.url;
+
+  const mainImage = firstPhoto || firstMedia || "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=800&q=80";
+  const hoverImage = secondPhoto || mainImage;
+  const isMainVideo = isVideoUrl(mainImage);
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -38,21 +54,42 @@ export function ProductCard({ product }: { product: Product }) {
     <div className="group flex flex-col bg-[#0a0a0a] border border-[#1f1f1f] hover:border-[#d6be67]/40 transition-all duration-300">
       {/* Product Image Stage */}
       <Link href={`/product/${product.slug}`} className="relative aspect-[4/5] overflow-hidden bg-[#121212] block">
-        <Image
-          src={mainImage}
-          alt={product.name}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-        {hoverImage !== mainImage && (
-          <Image
-            src={hoverImage}
-            alt={`${product.name} secondary angle`}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        {isMainVideo ? (
+          <video
+            src={mainImage}
+            muted
+            loop
+            playsInline
+            autoPlay
+            className="w-full h-full object-cover"
           />
+        ) : (
+          <>
+            <Image
+              src={mainImage}
+              alt={product.name}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            {hoverImage !== mainImage && (
+              <Image
+                src={hoverImage}
+                alt={`${product.name} secondary angle`}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              />
+            )}
+          </>
+        )}
+
+        {/* Video Reel Badge */}
+        {hasVideo && (
+          <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-md px-2 py-0.5 border border-[#d6be67]/30 text-[9px] uppercase tracking-wider text-[#d6be67] flex items-center gap-1">
+            <Play className="w-2 h-2 fill-current" />
+            <span>Video</span>
+          </div>
         )}
 
         {/* Quick Add floating action */}

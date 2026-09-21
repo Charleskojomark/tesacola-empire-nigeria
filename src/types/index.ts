@@ -86,6 +86,7 @@ export interface ProductImage {
   altText: string;
   isMain: boolean;
   sortOrder: number;
+  mediaType?: "IMAGE" | "VIDEO";
   createdAt: string;
 }
 
