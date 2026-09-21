@@ -52,19 +52,72 @@ export function Header() {
             : "bg-black/80 backdrop-blur-sm border-b border-white/10 py-5"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setIsMobileMenuOpen(true)}
-            className="lg:hidden text-white hover:text-[#d6be67] p-2 transition-colors"
-            aria-label="Open navigation menu"
-          >
-            <Menu className="w-6 h-6" />
-          </button>
+        {/* ── MOBILE HEADER: 3-column grid (hamburger | logo | icons) ── */}
+        <div className="lg:hidden max-w-7xl mx-auto px-4 grid grid-cols-3 items-center">
+          {/* Left: Hamburger */}
+          <div className="flex items-center">
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="text-white hover:text-[#d6be67] p-2 -ml-2 transition-colors"
+              aria-label="Open navigation menu"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+          </div>
 
-          {/* Brand Official Logo */}
-          <Link href="/" className="flex items-center gap-3 sm:gap-4 group">
-            <div className="relative w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 flex items-center justify-center">
+          {/* Center: Logo */}
+          <div className="flex justify-center">
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="relative w-9 h-9 flex-shrink-0">
+                <Image
+                  src="/tesacol_logo.png"
+                  alt="Tesacola Empire Crest"
+                  width={36}
+                  height={36}
+                  priority
+                  className="object-contain w-full h-full filter brightness-110 drop-shadow-[0_0_8px_rgba(214,190,103,0.35)]"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <span className="font-cinzel text-base font-semibold tracking-[0.2em] text-white uppercase leading-none">
+                  Tesacola
+                </span>
+                <span className="font-cinzel text-[9px] tracking-[0.38em] text-[#d6be67] font-medium uppercase mt-0.5">
+                  Empire
+                </span>
+              </div>
+            </Link>
+          </div>
+
+          {/* Right: Action Icons */}
+          <div className="flex items-center justify-end gap-3">
+            <button
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              className="text-white hover:text-[#d6be67] transition-colors p-1"
+              aria-label="Search catalogue"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="text-white hover:text-[#d6be67] transition-colors p-1 relative"
+              aria-label="Shopping bag"
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-[#d6be67] text-black font-semibold text-[10px] w-4 h-4 rounded-full flex items-center justify-center shadow-md">
+                  {itemCount}
+                </span>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* ── DESKTOP HEADER: classic flex row ── */}
+        <div className="hidden lg:flex max-w-7xl mx-auto px-6 lg:px-8 items-center justify-between">
+          {/* Brand Logo */}
+          <Link href="/" className="flex items-center gap-4 group">
+            <div className="relative w-16 h-16 flex-shrink-0">
               <Image
                 src="/tesacol_logo.png"
                 alt="Tesacola Empire Crest"
@@ -75,17 +128,17 @@ export function Header() {
               />
             </div>
             <div className="flex flex-col justify-center">
-              <span className="font-serif text-xl sm:text-2xl font-medium tracking-[0.18em] sm:tracking-[0.2em] text-white group-hover:text-[#d6be67] transition-colors uppercase leading-none">
+              <span className="font-cinzel text-2xl font-semibold tracking-[0.22em] text-white group-hover:text-[#d6be67] transition-colors uppercase leading-none">
                 Tesacola
               </span>
-              <span className="text-[10px] sm:text-[11px] tracking-[0.32em] sm:tracking-[0.36em] text-[#d6be67] font-light uppercase mt-1">
+              <span className="font-cinzel text-[11px] tracking-[0.42em] text-[#d6be67] font-medium uppercase mt-1">
                 Empire
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          {/* Desktop Nav */}
+          <nav className="flex items-center space-x-8">
             {navLinks.map((link) => {
               const isActive = pathname === link.href || pathname?.startsWith(link.href + "/");
               return (
@@ -93,9 +146,7 @@ export function Header() {
                   key={link.name}
                   href={link.href}
                   className={`text-xs tracking-[0.2em] font-medium transition-colors duration-200 py-1 relative ${
-                    isActive
-                      ? "text-[#d6be67]"
-                      : "text-[#ededed] hover:text-[#d6be67]"
+                    isActive ? "text-[#d6be67]" : "text-[#ededed] hover:text-[#d6be67]"
                   }`}
                 >
                   {link.name}
@@ -107,9 +158,8 @@ export function Header() {
             })}
           </nav>
 
-          {/* Utility Action Icons */}
+          {/* Desktop Icons */}
           <div className="flex items-center space-x-5">
-            {/* Search Trigger */}
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
               className="text-white hover:text-[#d6be67] transition-colors p-1"
@@ -117,8 +167,6 @@ export function Header() {
             >
               <Search className="w-5 h-5" />
             </button>
-
-            {/* Account / User Portal */}
             <Link
               href="/account"
               className="text-white hover:text-[#d6be67] transition-colors p-1"
@@ -126,8 +174,6 @@ export function Header() {
             >
               <User className="w-5 h-5" />
             </Link>
-
-            {/* Cart Trigger with Count Badge */}
             <button
               onClick={() => setIsCartOpen(true)}
               className="text-white hover:text-[#d6be67] transition-colors p-1 relative"
@@ -204,10 +250,10 @@ export function Header() {
                   />
                 </div>
                 <div className="flex flex-col justify-center">
-                  <span className="font-serif text-xl text-white font-medium tracking-[0.18em] uppercase leading-none">
+                  <span className="font-cinzel text-xl text-white font-semibold tracking-[0.2em] uppercase leading-none">
                     Tesacola
                   </span>
-                  <span className="text-[10px] tracking-[0.32em] text-[#d6be67] font-light uppercase mt-1">
+                  <span className="font-cinzel text-[10px] tracking-[0.38em] text-[#d6be67] font-medium uppercase mt-1">
                     Empire
                   </span>
                 </div>

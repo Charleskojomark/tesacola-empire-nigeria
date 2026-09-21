@@ -30,15 +30,15 @@ export default async function AdminProductsPage() {
           </div>
           <Link
             href="/admin/products/new"
-            className="px-4 py-2 bg-[#238636] hover:bg-[#2ea043] text-white text-xs font-medium rounded transition-colors flex items-center gap-2 self-start"
+            className="px-4 py-2 bg-[#238636] hover:bg-[#2ea043] text-white text-xs font-medium rounded transition-colors flex items-center gap-2 self-start sm:self-auto"
           >
             <Plus className="w-4 h-4" />
             <span>Create New Product</span>
           </Link>
         </div>
 
-        {/* Data Table */}
-        <div className="bg-[#161b22] border border-[#30363d] rounded-lg overflow-x-auto">
+        {/* ── DESKTOP TABLE (hidden on mobile) ── */}
+        <div className="hidden sm:block bg-[#161b22] border border-[#30363d] rounded-lg overflow-x-auto">
           <table className="w-full text-left text-xs text-neutral-300">
             <thead className="bg-[#21262d] text-neutral-400 uppercase text-[10px] tracking-wider border-b border-[#30363d]">
               <tr>
@@ -126,6 +126,78 @@ export default async function AdminProductsPage() {
               })}
             </tbody>
           </table>
+        </div>
+
+        {/* ── MOBILE CARD LIST (visible only on mobile) ── */}
+        <div className="sm:hidden space-y-3">
+          {products.length === 0 ? (
+            <div className="bg-[#161b22] border border-[#30363d] p-8 text-center text-xs text-neutral-500 rounded-lg">
+              No products in catalog yet.
+            </div>
+          ) : (
+            products.map((p) => {
+              const img = p.images?.[0]?.url || "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=100&q=80";
+              return (
+                <div key={p.id} className="bg-[#161b22] border border-[#30363d] rounded-lg p-4 flex gap-3">
+                  <div className="relative w-14 h-16 bg-[#0d1117] border border-[#30363d] flex-shrink-0 overflow-hidden rounded">
+                    <Image src={img} alt={p.name} fill className="object-cover" />
+                  </div>
+                  <div className="flex-1 min-w-0 space-y-2">
+                    <div>
+                      <p className="font-semibold text-white text-sm truncate">{p.name}</p>
+                      <p className="text-[11px] text-neutral-500">{p.category?.name || "Footwear"} · {p.sku}</p>
+                    </div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-medium text-white text-xs">{formatCurrency(p.price)}</span>
+                      <span className="inline-block px-2 py-0.5 rounded text-[10px] font-medium bg-[#21262d] text-neutral-300 border border-[#30363d]">
+                        {p.status}
+                      </span>
+                      {p.isPublished ? (
+                        <span className="text-[10px] text-emerald-400 flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />Published
+                        </span>
+                      ) : (
+                        <span className="text-[10px] text-neutral-500 flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-neutral-600" />Draft
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 pt-1 border-t border-[#30363d]">
+                      <Link
+                        href={`/product/${p.slug}`}
+                        target="_blank"
+                        className="flex items-center gap-1 text-[11px] text-neutral-400 hover:text-white"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        View
+                      </Link>
+                      <Link
+                        href={`/admin/products/${p.id}`}
+                        className="flex items-center gap-1 text-[11px] text-neutral-400 hover:text-[#d6be67]"
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                        Edit
+                      </Link>
+                      <form
+                        action={async () => {
+                          "use server";
+                          await adminDeleteProduct(p.id);
+                        }}
+                      >
+                        <button
+                          type="submit"
+                          className="flex items-center gap-1 text-[11px] text-neutral-500 hover:text-red-400"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          Delete
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </AdminLayout>

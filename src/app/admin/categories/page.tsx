@@ -40,39 +40,69 @@ export default async function AdminCategoriesPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Categories Table */}
-          <div className="lg:col-span-8 bg-[#161b22] border border-[#30363d] rounded-lg overflow-x-auto">
-            <table className="w-full text-left text-xs text-neutral-300">
-              <thead className="bg-[#21262d] text-neutral-400 uppercase text-[10px] tracking-wider border-b border-[#30363d]">
-                <tr>
-                  <th className="py-3 px-4">Category</th>
-                  <th className="py-3 px-4">Slug</th>
-                  <th className="py-3 px-4">Description</th>
-                  <th className="py-3 px-4">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#30363d]">
-                {categories.map((c) => (
-                  <tr key={c.id} className="hover:bg-[#1c2128]">
-                    <td className="py-3 px-4 font-semibold text-white">{c.name}</td>
-                    <td className="py-3 px-4 font-mono text-neutral-400">{c.slug}</td>
-                    <td className="py-3 px-4 text-neutral-400 max-w-xs truncate font-light">
-                      {c.description || "—"}
-                    </td>
-                    <td className="py-3 px-4">
-                      {c.isActive ? (
-                        <span className="text-[11px] text-emerald-400 flex items-center gap-1">
-                          <Check className="w-3.5 h-3.5" />
-                          Active
-                        </span>
-                      ) : (
-                        <span className="text-[11px] text-neutral-500">Archived</span>
-                      )}
-                    </td>
+          {/* Categories — Desktop Table */}
+          <div className="lg:col-span-8 space-y-3">
+            <div className="hidden sm:block bg-[#161b22] border border-[#30363d] rounded-lg overflow-x-auto">
+              <table className="w-full text-left text-xs text-neutral-300">
+                <thead className="bg-[#21262d] text-neutral-400 uppercase text-[10px] tracking-wider border-b border-[#30363d]">
+                  <tr>
+                    <th className="py-3 px-4">Category</th>
+                    <th className="py-3 px-4">Slug</th>
+                    <th className="py-3 px-4">Description</th>
+                    <th className="py-3 px-4">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-[#30363d]">
+                  {categories.length === 0 ? (
+                    <tr>
+                      <td colSpan={4} className="py-10 text-center text-neutral-500">No categories yet.</td>
+                    </tr>
+                  ) : categories.map((c) => (
+                    <tr key={c.id} className="hover:bg-[#1c2128]">
+                      <td className="py-3 px-4 font-semibold text-white">{c.name}</td>
+                      <td className="py-3 px-4 font-mono text-neutral-400">{c.slug}</td>
+                      <td className="py-3 px-4 text-neutral-400 max-w-xs truncate font-light">
+                        {c.description || "—"}
+                      </td>
+                      <td className="py-3 px-4">
+                        {c.isActive ? (
+                          <span className="text-[11px] text-emerald-400 flex items-center gap-1">
+                            <Check className="w-3.5 h-3.5" />
+                            Active
+                          </span>
+                        ) : (
+                          <span className="text-[11px] text-neutral-500">Archived</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card List */}
+            <div className="sm:hidden space-y-2">
+              {categories.length === 0 ? (
+                <div className="bg-[#161b22] border border-[#30363d] p-8 text-center text-xs text-neutral-500 rounded-lg">
+                  No categories yet.
+                </div>
+              ) : categories.map((c) => (
+                <div key={c.id} className="bg-[#161b22] border border-[#30363d] rounded-lg p-4 text-xs space-y-1">
+                  <div className="flex items-center justify-between">
+                    <p className="font-semibold text-white">{c.name}</p>
+                    {c.isActive ? (
+                      <span className="text-[11px] text-emerald-400 flex items-center gap-1">
+                        <Check className="w-3 h-3" />Active
+                      </span>
+                    ) : (
+                      <span className="text-[11px] text-neutral-500">Archived</span>
+                    )}
+                  </div>
+                  <p className="font-mono text-neutral-500 text-[11px]">{c.slug}</p>
+                  {c.description && <p className="text-neutral-400 font-light">{c.description}</p>}
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Quick Add Form */}

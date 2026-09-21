@@ -27,7 +27,8 @@ export default async function AdminAuditLogsPage() {
           </p>
         </div>
 
-        <div className="bg-[#161b22] border border-[#30363d] rounded-lg overflow-x-auto">
+        {/* Desktop Table */}
+        <div className="hidden sm:block bg-[#161b22] border border-[#30363d] rounded-lg overflow-x-auto">
           <table className="w-full text-left text-xs text-neutral-300">
             <thead className="bg-[#21262d] text-neutral-400 uppercase text-[10px] tracking-wider border-b border-[#30363d]">
               <tr>
@@ -66,6 +67,33 @@ export default async function AdminAuditLogsPage() {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card List */}
+        <div className="sm:hidden space-y-3">
+          {logs.length === 0 ? (
+            <div className="bg-[#161b22] border border-[#30363d] p-8 text-center text-xs text-neutral-500 rounded-lg">
+              No privileged actions logged yet.
+            </div>
+          ) : (
+            logs.map((log) => (
+              <div key={log.id} className="bg-[#161b22] border border-[#30363d] rounded-lg p-4 text-xs space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="inline-block px-2 py-0.5 rounded text-[10px] font-mono bg-[#21262d] text-[#d6be67] border border-[#30363d]">
+                    {log.action}
+                  </span>
+                  <span className="text-[11px] text-neutral-500 font-mono flex-shrink-0">
+                    {new Date(log.createdAt).toLocaleTimeString()}
+                  </span>
+                </div>
+                <p className="text-white font-medium">{log.userEmail}</p>
+                <p className="text-neutral-400 font-mono text-[11px]">
+                  {log.entityType} #{log.entityId.slice(0, 8)} &bull; {formatDate(log.createdAt)}
+                </p>
+                {log.details && <p className="text-neutral-300 font-light border-t border-[#30363d] pt-2">{log.details}</p>}
+              </div>
+            ))
+          )}
         </div>
       </div>
     </AdminLayout>

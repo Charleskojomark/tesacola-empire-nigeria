@@ -6,12 +6,40 @@ import { useRouter } from "next/navigation";
 import { Category, Product, ProductImage, ProductStatus } from "@/types";
 import { MediaGalleryManager } from "./MediaGalleryManager";
 import { adminSaveProduct } from "@/app/actions/admin";
-import { Loader2, Save, ArrowLeft } from "lucide-react";
+import { Loader2, Save, ArrowLeft, RefreshCw, Sparkles } from "lucide-react";
 
 interface ProductFormProps {
   categories: Category[];
   initialProduct?: Product;
 }
+
+const getCategoryCode = (catId: string, cats: Category[]) => {
+  const cat = cats.find((c) => c.id === catId);
+  const title = (cat?.name || "").toUpperCase();
+  if (title.includes("FOOTWEAR") || title.includes("SHOE") || title.includes("OXFORD") || title.includes("DERBY")) return "FTW";
+  if (title.includes("BOOT") || title.includes("CHELSEA")) return "BOT";
+  if (title.includes("BAG") || title.includes("BRIEFCASE") || title.includes("DUFFEL") || title.includes("BACKPACK")) return "BAG";
+  if (title.includes("BELT")) return "BLT";
+  if (title.includes("WALLET") || title.includes("CARD")) return "WLT";
+  if (title.includes("ACCESSOR")) return "ACC";
+  return title.replace(/[^A-Z]/g, "").slice(0, 3) || "LUX";
+};
+
+const generateSkuCode = (catId: string, cats: Category[], prodName?: string) => {
+  const catCode = getCategoryCode(catId, cats);
+  let nameCode = "";
+  if (prodName && prodName.trim().length > 0) {
+    const words = prodName.trim().toUpperCase().split(/\s+/).filter(w => !["TESACOLA", "THE", "AND", "&", "DE", "OF"].includes(w));
+    if (words.length > 0) {
+      nameCode = words[0].replace(/[^A-Z]/g, "").slice(0, 3);
+    }
+  }
+  const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+  if (nameCode && nameCode.length >= 2) {
+    return `TSA-${catCode}-${nameCode}-${randomSuffix}`;
+  }
+  return `TSA-${catCode}-${randomSuffix}`;
+};
 
 export function ProductForm({ categories, initialProduct }: ProductFormProps) {
   const router = useRouter();
@@ -19,11 +47,16 @@ export function ProductForm({ categories, initialProduct }: ProductFormProps) {
   const [error, setError] = useState<string | null>(null);
 
   const [name, setName] = useState(initialProduct?.name || "");
-  const [sku, setSku] = useState(initialProduct?.sku || "");
-  const [price, setPrice] = useState<number>(initialProduct?.price || 165000);
   const [categoryId, setCategoryId] = useState(
     initialProduct?.categoryId || categories[0]?.id || ""
   );
+  const [isSkuCustom, setIsSkuCustom] = useState(!!initialProduct?.sku);
+  const [sku, setSku] = useState(() => {
+    if (initialProduct?.sku) return initialProduct.sku;
+    const initialCat = initialProduct?.categoryId || categories[0]?.id || "";
+    return generateSkuCode(initialCat, categories);
+  });
+  const [price, setPrice] = useState<number>(initialProduct?.price || 165000);
   const [status, setStatus] = useState<ProductStatus>(
     initialProduct?.status || "IN_STOCK"
   );
@@ -191,7 +224,13 @@ export function ProductForm({ categories, initialProduct }: ProductFormProps) {
             <label className="block text-neutral-400 mb-1 font-medium">Category Classification *</label>
             <select
               value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
+              onChange={(e) => {
+                const newCatId = e.target.value;
+                setCategoryId(newCatId);
+                if (!isSkuCustom) {
+                  setSku(generateSkuCode(newCatId, categories, name));
+                }
+              }}
               required
               className="w-full bg-[#0d1117] border border-[#30363d] p-2.5 text-white rounded focus:border-[#d6be67] focus:outline-none"
             >
@@ -204,14 +243,47 @@ export function ProductForm({ categories, initialProduct }: ProductFormProps) {
           </div>
 
           <div>
-            <label className="block text-neutral-400 mb-1 font-medium">SKU Reference</label>
-            <input
-              type="text"
-              value={sku}
-              onChange={(e) => setSku(e.target.value)}
-              placeholder="TSA-MN-CHL-001"
-              className="w-full bg-[#0d1117] border border-[#30363d] p-2.5 text-white rounded focus:border-[#d6be67] focus:outline-none"
-            />
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-neutral-400 font-medium">SKU Reference</label>
+              <button
+                type="button"
+                onClick={() => {
+                  setSku(generateSkuCode(categoryId, categories, name));
+                  setIsSkuCustom(false);
+                }}
+                className="text-[11px] text-[#d6be67] hover:text-[#f4e996] flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
+                title="Generate fresh unique SKU reference"
+              >
+                <Sparkles className="w-3 h-3" />
+                <span>Auto-Generate SKU</span>
+              </button>
+            </div>
+            <div className="relative flex items-center">
+              <input
+                type="text"
+                value={sku}
+                onChange={(e) => {
+                  setSku(e.target.value);
+                  setIsSkuCustom(true);
+                }}
+                placeholder="TSA-FTW-8492"
+                className="w-full bg-[#0d1117] border border-[#30363d] p-2.5 pr-9 text-white rounded focus:border-[#d6be67] focus:outline-none font-mono text-xs tracking-wider"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  setSku(generateSkuCode(categoryId, categories, name));
+                  setIsSkuCustom(false);
+                }}
+                className="absolute right-2.5 p-1 text-neutral-400 hover:text-[#d6be67] transition-colors cursor-pointer"
+                title="Regenerate SKU code"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+              </button>
+            </div>
+            <p className="text-[10px] text-neutral-500 mt-1">
+              Auto-generated inventory dossier SKU. Fully editable for bespoke client tags.
+            </p>
           </div>
 
           <div>

@@ -33,14 +33,22 @@
   body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
     letter-spacing: -0.01em;
   }
 
   h1, h2, h3, h4, .font-serif {
-    font-family: var(--font-cormorant), Georgia, serif;
+    font-family: var(--font-serif), var(--font-cormorant), Georgia, serif;
     letter-spacing: -0.015em;
+  }
+
+  .font-cinzel, .brand-font {
+    font-family: var(--font-cinzel), serif;
+  }
+
+  .font-sans {
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   }
 }
 

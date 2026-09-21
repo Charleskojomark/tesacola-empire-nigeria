@@ -26,10 +26,10 @@ export function Footer() {
                 />
               </div>
               <div className="flex flex-col justify-center">
-                <span className="font-serif text-2xl sm:text-3xl font-medium tracking-[0.18em] uppercase leading-none">
+                <span className="font-cinzel text-2xl sm:text-3xl font-semibold tracking-[0.22em] uppercase leading-none">
                   Tesacola
                 </span>
-                <span className="text-xs sm:text-sm tracking-[0.35em] text-[#d6be67] uppercase font-light mt-1">
+                <span className="font-cinzel text-xs sm:text-sm tracking-[0.42em] text-[#d6be67] uppercase font-medium mt-1">
                   Empire
                 </span>
               </div>
