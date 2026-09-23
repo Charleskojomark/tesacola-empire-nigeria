@@ -31,15 +31,15 @@ export function Hero() {
 
         {/* Master Headline */}
         <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-white tracking-tight leading-[1.08] max-w-4xl">
-          PREMIUM LEATHER CRAFTSMANSHIP &amp; MANUFACTURING
+          PREMIUM NIGERIAN LEATHER CRAFTSMANSHIP
         </h1>
 
-        {/* Subtitle / Core Idea */}
+        {/* Subtitle / Core Supporting Statement (Point 2) */}
         <p className="mt-6 text-base sm:text-lg md:text-xl text-neutral-300 font-light max-w-2xl leading-relaxed">
-          Nigerian industrial precision and bespoke leather artistry built for executive authority, commercial scalability, and international longevity.
+          Premium Nigerian leather craftsmanship, bespoke design and commercial production built with a global outlook.
         </p>
 
-        <p className="mt-2 text-xs sm:text-sm text-[#d6be67]/90 uppercase tracking-[0.25em] font-serif">
+        <p className="mt-3 text-xs sm:text-sm text-[#d6be67] uppercase tracking-[0.25em] font-serif">
           &ldquo;Tesacola is building its own world.&rdquo;
         </p>
 
@@ -63,23 +63,23 @@ export function Hero() {
           </Link>
         </div>
 
-        {/* Value Metric Pillars */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10 border-t border-white/10 pt-8 w-full max-w-3xl">
-          <div>
-            <span className="block font-serif text-lg sm:text-xl text-white font-medium">100% Full-Grain</span>
-            <span className="text-[11px] tracking-wider text-neutral-400 uppercase">Selected Leathers</span>
+        {/* Brand Markers (Point 3) */}
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 border-t border-white/10 pt-8 w-full max-w-4xl text-center">
+          <div className="space-y-1">
+            <span className="block font-serif text-base sm:text-lg text-white font-normal">Premium Leather</span>
+            <span className="text-[11px] tracking-wider text-neutral-400 uppercase">Selection</span>
           </div>
-          <div>
-            <span className="block font-serif text-lg sm:text-xl text-white font-medium">Hand-Welting</span>
-            <span className="text-[11px] tracking-wider text-neutral-400 uppercase">Structural Durability</span>
+          <div className="space-y-1">
+            <span className="block font-serif text-base sm:text-lg text-white font-normal">Handcrafted</span>
+            <span className="text-[11px] tracking-wider text-neutral-400 uppercase">Finishing</span>
           </div>
-          <div>
-            <span className="block font-serif text-lg sm:text-xl text-white font-medium">Nigerian Made</span>
-            <span className="text-[11px] tracking-wider text-neutral-400 uppercase">Global Benchmark</span>
+          <div className="space-y-1">
+            <span className="block font-serif text-base sm:text-lg text-white font-normal">Made in Nigeria</span>
+            <span className="text-[11px] tracking-wider text-neutral-400 uppercase">Built for the World</span>
           </div>
-          <div>
-            <span className="block font-serif text-lg sm:text-xl text-white font-medium">B2B Production</span>
-            <span className="text-[11px] tracking-wider text-neutral-400 uppercase">Contract &amp; Bespoke</span>
+          <div className="space-y-1">
+            <span className="block font-serif text-base sm:text-lg text-white font-normal">Bespoke &amp; Commercial</span>
+            <span className="text-[11px] tracking-wider text-neutral-400 uppercase">Orders</span>
           </div>
         </div>
       </div>

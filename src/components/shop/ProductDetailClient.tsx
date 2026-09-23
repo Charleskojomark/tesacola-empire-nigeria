@@ -178,9 +178,12 @@ export function ProductDetailClient({ product }: { product: Product }) {
                 <span className="text-xs uppercase tracking-wider text-neutral-300">
                   Select Specification / Size
                 </span>
-                <span className="text-[11px] text-neutral-500 underline cursor-pointer hover:text-[#d6be67]">
-                  Size Guide
-                </span>
+                <Link
+                  href="/fit-guide"
+                  className="text-[11px] text-[#d6be67] hover:underline font-light flex items-center gap-1"
+                >
+                  <span>Need help with sizing? Find Your Fit &rarr;</span>
+                </Link>
               </div>
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
                 {product.variants.map((v) => {
@@ -222,6 +225,28 @@ export function ProductDetailClient({ product }: { product: Product }) {
             >
               Request Custom Leather / Colour
             </Link>
+          </div>
+
+          {/* Dedicated Product Support Pathways (Point 20) */}
+          <div className="p-4 bg-[#0a0a0a] border border-[#1f1f1f] space-y-2.5 text-xs rounded-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between text-neutral-400 gap-1 pb-2 border-b border-[#1a1a1a]">
+              <span>Need help with sizing?</span>
+              <Link href="/fit-guide" className="text-[#d6be67] hover:underline font-medium">
+                Find Your Fit &rarr;
+              </Link>
+            </div>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between text-neutral-400 gap-1 pb-2 border-b border-[#1a1a1a]">
+              <span>Need help caring for this material?</span>
+              <Link href="/care" className="text-[#d6be67] hover:underline font-medium">
+                View Care Guide &rarr;
+              </Link>
+            </div>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between text-neutral-400 gap-1">
+              <span>Need a different size, colour or specification?</span>
+              <Link href={`/custom?product=${encodeURIComponent(product.name)}`} className="text-[#d6be67] hover:underline font-medium">
+                Request Custom Enquiry &rarr;
+              </Link>
+            </div>
           </div>
 
           {/* Production vs Courier Time Breakdown (Section 26 & 41) */}
@@ -267,7 +292,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
                     : "border-transparent text-neutral-400 hover:text-white"
                 }`}
               >
-                Leather Care
+                Care &amp; Preservation
               </button>
               <button
                 onClick={() => setActiveTab("shipping")}
@@ -277,7 +302,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
                     : "border-transparent text-neutral-400 hover:text-white"
                 }`}
               >
-                Delivery &amp; Returns
+                Delivery &amp; Adjustments
               </button>
             </div>
 
@@ -298,10 +323,18 @@ export function ProductDetailClient({ product }: { product: Product }) {
               )}
 
               {activeTab === "care" && (
-                <p>
-                  {product.careInstructions ||
-                    "Store with aromatic cedar shoe trees between wearings to preserve lasting contours and absorb moisture. Condition with a neutral beeswax balm once a month to keep the calfskin hydrated."}
-                </p>
+                <div className="space-y-3">
+                  <p>
+                    {product.careInstructions ||
+                      "Allow footwear to air naturally after use. Remove surface dust and store in a clean, ventilated space away from direct heat."}
+                  </p>
+                  <div>
+                    <Link href="/care" className="text-[#d6be67] hover:underline font-medium inline-flex items-center gap-1">
+                      <span>Read Full Shoe &amp; Leather Care Guide</span>
+                      <span>&rarr;</span>
+                    </Link>
+                  </div>
+                </div>
               )}
 
               {activeTab === "shipping" && (
@@ -310,8 +343,13 @@ export function ProductDetailClient({ product }: { product: Product }) {
                     All items are delivered in signature Tesacola cotton dust bags and rigid presentation boxes.
                   </p>
                   <p>
-                    <strong>Exchange Policy:</strong> Unworn footwear and leather goods in original condition may be exchanged for alternative sizing within 7 days of verified delivery.
+                    <strong>Sizing Adjustments:</strong> Unworn footwear in original condition may be adjusted or exchanged for alternative sizing within 7 days of verified delivery.
                   </p>
+                  <div>
+                    <Link href="/returns" className="text-[#d6be67] hover:underline font-medium inline-flex items-center gap-1">
+                      <span>View Returns &amp; Adjustments Policy &rarr;</span>
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>

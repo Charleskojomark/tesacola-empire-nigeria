@@ -63,36 +63,36 @@ export const SEED_CATEGORIES = [
 export const SEED_COLLECTIONS = [
   {
     id: "col-executive",
-    name: "The Executive Collection",
+    name: "The Executive",
     slug: "executive",
-    description: "Commanding corporate footwear and leather business essentials crafted for African industry leaders.",
+    description: "Leather pieces designed for professional presence, leadership and everyday authority.",
     heroImage: "/seed/executive.jpg",
     isPublished: true,
     sortOrder: 1,
   },
   {
     id: "col-heritage",
-    name: "The Heritage Collection",
+    name: "The Heritage",
     slug: "heritage",
-    description: "Traditional hand-stitched welted construction celebrating indigenous Nigerian craftsmanship.",
+    description: "Pieces that express Tesacola’s Nigerian identity through material, design and craftsmanship.",
     heroImage: "/seed/heritage.jpg",
     isPublished: true,
     sortOrder: 2,
   },
   {
     id: "col-travel",
-    name: "The Travel Collection",
+    name: "The Travel",
     slug: "travel",
-    description: "Heavy-duty weekender bags and versatile slip-on drivers for international journeys.",
+    description: "A developing collection of Tesacola pieces created for movement, work and refined travel.",
     heroImage: "/seed/travel.jpg",
     isPublished: true,
     sortOrder: 3,
   },
   {
     id: "col-occasion",
-    name: "The Occasion Collection",
+    name: "The Occasion",
     slug: "occasion",
-    description: "Patent finishes, wholecut oxfords, and embroidered velvet-leather hybrids for celebratory moments.",
+    description: "Footwear and leather pieces created for moments that deserve a considered finish.",
     heroImage: "/seed/occasion.jpg",
     isPublished: true,
     sortOrder: 4,
@@ -118,7 +118,7 @@ export const SEED_PRODUCTS = [
     deliveryInfo: "2–4 working days nationwide Nigeria; 5–8 days DHL Express International.",
     careInstructions: "Condition with beeswax cream monthly. Use cedar shoe trees between wears.",
     isFeatured: true,
-    isPublished: true,
+    isPublished: false,
     categoryId: "cat-men",
     images: [
       {
@@ -164,7 +164,7 @@ export const SEED_PRODUCTS = [
     deliveryInfo: "2–4 working days nationwide Nigeria; 5–8 days DHL Express International.",
     careInstructions: "Brush suede lightly with brass-bristle brush. Treat smooth leather with neutral balm.",
     isFeatured: true,
-    isPublished: true,
+    isPublished: false,
     categoryId: "cat-men",
     images: [
       {
@@ -201,7 +201,7 @@ export const SEED_PRODUCTS = [
     deliveryInfo: "Shipped immediately upon completion via insured courier.",
     careInstructions: "Polish with rich leather balm twice a year. Keep dry.",
     isFeatured: true,
-    isPublished: true,
+    isPublished: false,
     categoryId: "cat-bags",
     images: [
       {
@@ -235,7 +235,7 @@ export const SEED_PRODUCTS = [
     deliveryInfo: "2–4 working days nationwide Nigeria; 5–8 days international.",
     careInstructions: "Wipe with damp microfibre cloth. Store in cotton dust bag.",
     isFeatured: true,
-    isPublished: true,
+    isPublished: false,
     categoryId: "cat-women",
     images: [
       {
@@ -272,7 +272,7 @@ export const SEED_PRODUCTS = [
     deliveryInfo: "2–4 working days nationwide Nigeria.",
     careInstructions: "Wipe with soft cloth. Buff with natural saddle soap when needed.",
     isFeatured: false,
-    isPublished: true,
+    isPublished: false,
     categoryId: "cat-belts",
     images: [
       {
@@ -308,7 +308,7 @@ export const SEED_PRODUCTS = [
     deliveryInfo: "2–4 working days nationwide Nigeria.",
     careInstructions: "Keep away from excessive moisture.",
     isFeatured: false,
-    isPublished: true,
+    isPublished: false,
     categoryId: "cat-leather-goods",
     images: [
       {
@@ -330,7 +330,7 @@ export const SEED_FAQS = [
   {
     id: "faq-1",
     question: "Where are Tesacola products manufactured?",
-    answer: "All Tesacola footwear, bags, and leather goods are precision crafted in our dedicated Nigerian manufacturing facilities, utilizing both traditional hand-welting techniques and modern industrial finishing machinery.",
+    answer: "All Tesacola footwear, bags, and leather goods are handcrafted in Nigeria by skilled artisans, pairing careful pattern work and disciplined construction with refined edge work and hand-finishing.",
     category: "MANUFACTURING",
     sortOrder: 1,
     isPublished: true,

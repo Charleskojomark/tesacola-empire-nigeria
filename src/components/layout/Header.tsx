@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ShoppingBag, Search, User, Menu, X, ArrowRight } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
+import { SoundToggle } from "@/components/layout/SoundToggle";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -160,6 +161,7 @@ export function Header() {
 
           {/* Desktop Icons */}
           <div className="flex items-center space-x-5">
+            <SoundToggle />
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
               className="text-white hover:text-[#d6be67] transition-colors p-1"
@@ -281,21 +283,29 @@ export function Header() {
               ))}
             </div>
 
-            {/* Secondary links & Brand Sign-off */}
+            {/* Secondary links & Sound Control */}
             <div className="mt-auto pt-6 border-t border-[#1f1f1f] space-y-4">
+              <div className="pb-2">
+                <SoundToggle />
+              </div>
+
               <div className="flex flex-col space-y-2 text-xs text-neutral-400">
-                <Link href="/account" className="hover:text-[#d6be67]">Customer Account</Link>
-                <Link href="/faq" className="hover:text-[#d6be67]">Client Care & FAQs</Link>
-                <Link href="/shipping" className="hover:text-[#d6be67]">Shipping & Delivery</Link>
+                <Link href="/fit-guide" className="hover:text-[#d6be67]">Find Your Fit</Link>
+                <Link href="/care" className="hover:text-[#d6be67]">Shoe &amp; Leather Care</Link>
+                <Link href="/colours" className="hover:text-[#d6be67]">Colour &amp; Material Guide</Link>
+                <Link href="/faq" className="hover:text-[#d6be67]">FAQs</Link>
+                <Link href="/shipping" className="hover:text-[#d6be67]">Shipping &amp; Delivery</Link>
+                <Link href="/returns" className="hover:text-[#d6be67]">Returns &amp; Adjustments</Link>
                 <Link href="/contact" className="hover:text-[#d6be67]">Contact Concierge</Link>
+                <Link href="/account" className="hover:text-[#d6be67]">Customer Account</Link>
               </div>
 
               <div className="pt-4 border-t border-white/5">
                 <p className="text-[10px] tracking-[0.2em] text-[#d6be67] uppercase font-serif">
-                  Enjoying Trust & Quality
+                  Enjoying Trust &amp; Quality
                 </p>
                 <p className="text-[10px] text-neutral-500 mt-1">
-                  Tesacola Empire
+                  Tesacola Empire Nigeria
                 </p>
               </div>
             </div>

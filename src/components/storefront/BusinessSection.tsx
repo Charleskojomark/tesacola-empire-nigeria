@@ -1,32 +1,32 @@
 import React from "react";
 import Link from "next/link";
-import { Building2, Factory, Globe2, Briefcase, Sparkles, ArrowRight } from "lucide-react";
+import { Building2, Sparkles, Globe2, Briefcase, Layers, ArrowRight } from "lucide-react";
 
 export function BusinessSection() {
   const pathways = [
     {
-      icon: Factory,
-      title: "Commercial Manufacturing",
-      desc: "High-capacity production lines for boutique brands, institutional footwear, and corporate leather collections.",
-      href: "/business/manufacturing",
+      icon: Layers,
+      title: "Commercial Production",
+      desc: "From defined product briefs to larger production runs, developed according to agreed specifications, quantities and timelines.",
+      href: "/business?type=MANUFACTURING",
     },
     {
       icon: Sparkles,
-      title: "Private-Label Lines",
-      desc: "White-label design, custom embossing, and specialized hardware for African and diaspora fashion labels.",
-      href: "/business/private-label",
-    },
-    {
-      icon: Briefcase,
-      title: "Corporate Bespoke",
-      desc: "Executive gifting, customized portfolios, brass-accented desk accessories, and corporate awards.",
-      href: "/business/corporate",
+      title: "Private Label",
+      desc: "Product design, materials, colour direction, branding and finishing requirements developed according to approved briefs.",
+      href: "/business?type=PRIVATE_LABEL",
     },
     {
       icon: Globe2,
-      title: "Wholesale & Export",
-      desc: "Dedicated tiered pricing, consolidated logistics, and export documentation for international retailers.",
-      href: "/business/wholesale",
+      title: "Wholesale & Stockists",
+      desc: "Designed for retailers and resellers seeking premium Nigerian-made leather products for their markets.",
+      href: "/business?type=WHOLESALER",
+    },
+    {
+      icon: Briefcase,
+      title: "Corporate & Bespoke",
+      desc: "Custom footwear, leather goods, corporate gifts and branded pieces developed for organisations and executive requirements.",
+      href: "/business?type=CORPORATE",
     },
   ];
 
@@ -41,8 +41,8 @@ export function BusinessSection() {
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-white leading-tight">
             Work With Tesacola
           </h2>
-          <p className="mt-4 text-sm sm:text-base text-neutral-400 font-light leading-relaxed">
-            We partner with discerning retail stores, multinational enterprises, and international fashion houses seeking dependable Nigerian manufacturing that meets global specifications.
+          <p className="mt-4 text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
+            Tesacola works with retailers, organisations, corporate buyers and commercial partners seeking premium Nigerian leather products, bespoke development and scalable production.
           </p>
         </div>
 
@@ -82,10 +82,10 @@ export function BusinessSection() {
         <div className="mt-12 p-8 sm:p-12 bg-gradient-to-r from-[#121212] via-[#0d0d0d] to-black border border-[#d6be67]/25 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center sm:text-left">
             <h3 className="font-serif text-xl sm:text-2xl text-white font-light">
-              Ready to discuss a production run or private label partnership?
+              Ready to discuss a commercial order or bespoke partnership?
             </h3>
             <p className="text-xs text-neutral-400 max-w-xl">
-              Our commercial division provides technical evaluations, sample prototyping, and scalable schedules.
+              Scalable production developed according to product requirements, quantities and agreed timelines.
             </p>
           </div>
           <Link

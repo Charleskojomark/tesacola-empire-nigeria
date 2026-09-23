@@ -39,11 +39,39 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProducts.slice(0, 3).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          {featuredProducts.length === 0 ? (
+            <div className="text-center py-16 px-6 bg-[#faf9f5] border border-[#e5e0d3] rounded-sm max-w-2xl mx-auto space-y-4">
+              <span className="text-[11px] uppercase tracking-[0.25em] text-[#ac8d3e] font-semibold block">
+                The Workshop
+              </span>
+              <h3 className="font-serif text-2xl sm:text-3xl text-neutral-900 font-light">
+                Catalogue in Preparation
+              </h3>
+              <p className="text-sm text-neutral-600 font-light max-w-lg mx-auto leading-relaxed">
+                Our workshop is currently finalizing photography and production batches for our seasonal collection. In the interim, explore our bespoke service or enquire directly for custom commissions and commercial production.
+              </p>
+              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Link
+                  href="/custom"
+                  className="w-full sm:w-auto px-6 py-3 bg-black text-white text-xs uppercase tracking-widest font-medium hover:bg-[#ac8d3e] transition-colors text-center"
+                >
+                  Request Custom Enquiry
+                </Link>
+                <Link
+                  href="/business"
+                  className="w-full sm:w-auto px-6 py-3 border border-neutral-300 text-neutral-800 text-xs uppercase tracking-widest hover:border-black transition-colors text-center"
+                >
+                  Commercial Partnerships
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredProducts.slice(0, 3).map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -119,13 +147,13 @@ export default async function HomePage() {
                 Origin &amp; Standard
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-neutral-900 leading-tight">
-                Made in Nigeria. Engineered for the World.
+                Made in Nigeria. Built for the World.
               </h2>
               <p className="text-sm text-neutral-700 leading-relaxed font-light">
-                Tesacola was founded on an unapologetic belief: that Nigerian industrial craftsmanship has the capacity to construct leather goods of equal or superior durability to the venerated workshops of Northampton or Florence.
+                Tesacola is proudly made in Nigeria, with a vision that extends beyond borders. We are building a Nigerian leather brand capable of serving customers, retailers and commercial partners wherever the future takes us.
               </p>
               <p className="text-sm text-neutral-700 leading-relaxed font-light">
-                By investing in high-grade equipment, rigorous worker training, and local sourcing of resilient bovine hides, we prove every day that West African luxury is not an aspiration—it is an existing reality.
+                We believe Nigerian craftsmanship deserves to be experienced not as a limitation of geography, but as a source of character, creativity and possibility.
               </p>
               <div className="pt-4">
                 <Link

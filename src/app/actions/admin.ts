@@ -2,7 +2,7 @@
 
 import { dbRepository } from "@/db";
 import { requireAuth } from "@/lib/auth";
-import { OrderStatus, CustomEnquiryStatus, BusinessEnquiryStatus, Product } from "@/types";
+import { OrderStatus, CustomEnquiryStatus, BusinessEnquiryStatus, Product, PaymentStatus } from "@/types";
 import { revalidatePath } from "next/cache";
 
 export async function adminUpdateOrderStatus(
@@ -21,6 +21,31 @@ export async function adminUpdateOrderStatus(
       entityType: "ORDER",
       entityId: orderId,
       details: `Status changed to ${status}${trackingNumber ? ` (Tracking: ${trackingNumber})` : ""}`,
+    });
+
+    revalidatePath("/admin/orders");
+    revalidatePath(`/admin/orders/${orderId}`);
+    return { success: true, order: updated };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function adminVerifyPayment(
+  orderId: string,
+  paymentStatus: PaymentStatus = "PAID"
+) {
+  try {
+    const session = await requireAuth(["SUPER_ADMIN", "ADMIN", "ORDER_MANAGER"]);
+    const updated = await dbRepository.updatePaymentStatus(orderId, paymentStatus);
+
+    await dbRepository.logAdminAction({
+      userId: session.userId,
+      userEmail: session.email,
+      action: "VERIFY_PAYMENT",
+      entityType: "ORDER",
+      entityId: orderId,
+      details: `Payment status changed to ${paymentStatus}`,
     });
 
     revalidatePath("/admin/orders");

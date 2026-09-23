@@ -571,6 +571,34 @@ class TesacolaDataRepository {
     return order;
   }
 
+  async updateOrderTransferDetails(
+    id: string,
+    transferDetails: { senderName: string; bankReference?: string; notes?: string }
+  ): Promise<Order | null> {
+    const noteAppend = `[Bank Transfer Confirmed: Sender="${transferDetails.senderName}"${
+      transferDetails.bankReference ? ` Ref="${transferDetails.bankReference}"` : ""
+    }${transferDetails.notes ? ` Note="${transferDetails.notes}"` : ""}]`;
+
+    if (neonSql) {
+      try {
+        await neonSql`
+          UPDATE orders SET
+            notes = CASE WHEN notes IS NULL OR notes = '' THEN ${noteAppend} ELSE notes || E'\n' || ${noteAppend} END,
+            updated_at = NOW()
+          WHERE id = ${id}
+        `;
+        return this.getOrderById(id);
+      } catch (err) {
+        console.error("updateOrderTransferDetails DB error:", err);
+      }
+    }
+    const order = this.orders.find((o) => o.id === id);
+    if (!order) return null;
+    order.notes = order.notes ? `${order.notes}\n${noteAppend}` : noteAppend;
+    order.updatedAt = new Date().toISOString();
+    return order;
+  }
+
   // --- CUSTOM ENQUIRIES ---
   async getCustomEnquiries(params?: { status?: CustomEnquiryStatus }): Promise<CustomEnquiry[]> {
     if (neonSql) {

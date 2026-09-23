@@ -111,6 +111,7 @@ export interface Product {
   isPublished: boolean;
   categoryId: string;
   subcategoryId?: string;
+  collectionId?: string;
   seoTitle?: string;
   seoDescription?: string;
   ogImage?: string;

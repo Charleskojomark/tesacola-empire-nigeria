@@ -5,8 +5,8 @@ import { getSession } from "@/lib/auth";
 import { dbRepository } from "@/db";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { formatCurrency, formatDate } from "@/lib/utils";
-import { adminUpdateOrderStatus } from "@/app/actions/admin";
-import { ArrowLeft, Truck, CheckCircle2, Clock, ShieldCheck } from "lucide-react";
+import { adminUpdateOrderStatus, adminVerifyPayment } from "@/app/actions/admin";
+import { ArrowLeft, Truck, CheckCircle2, Clock, ShieldCheck, Building2, Check } from "lucide-react";
 
 interface AdminOrderDetailProps {
   params: Promise<{ id: string }>;
@@ -30,6 +30,16 @@ export default async function AdminOrderDetailPage({ params }: AdminOrderDetailP
     const status = formData.get("orderStatus") as any;
     const trackingNumber = formData.get("trackingNumber") as string;
     await adminUpdateOrderStatus(id, status, trackingNumber);
+  }
+
+  async function markPaidAction() {
+    "use server";
+    await adminVerifyPayment(id, "PAID");
+  }
+
+  async function markUnpaidAction() {
+    "use server";
+    await adminVerifyPayment(id, "PENDING");
   }
 
   return (
@@ -65,6 +75,60 @@ export default async function AdminOrderDetailPage({ params }: AdminOrderDetailP
             >
               Payment: {order.paymentStatus}
             </span>
+          </div>
+        </div>
+
+        {/* Bank Transfer Payment Verification Card */}
+        <div className="bg-[#161b22] border border-[#30363d] p-6 rounded-lg space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-[#30363d]">
+            <div className="flex items-center gap-2">
+              <Building2 className="w-4 h-4 text-[#d6be67]" />
+              <h2 className="text-xs font-semibold text-white uppercase tracking-wider">
+                Bank Transfer Verification
+              </h2>
+            </div>
+            <span className="text-xs font-mono text-[#d6be67] font-semibold">
+              Expected: {formatCurrency(order.total)}
+            </span>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="space-y-1 text-xs">
+              <p className="text-neutral-300">
+                Current Status:{" "}
+                <strong
+                  className={order.paymentStatus === "PAID" ? "text-emerald-400" : "text-amber-400"}
+                >
+                  {order.paymentStatus === "PAID" ? "Verified & Paid" : "Awaiting Bank Transfer"}
+                </strong>
+              </p>
+              <p className="text-neutral-500 text-[11px]">
+                Narration Reference required: <span className="font-mono text-white">{order.orderNumber}</span>
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              {order.paymentStatus !== "PAID" ? (
+                <form action={markPaidAction}>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-[#238636] hover:bg-[#2ea043] text-white text-xs font-semibold rounded flex items-center gap-1.5 transition-colors shadow-sm"
+                  >
+                    <Check className="w-3.5 h-3.5" />
+                    <span>Confirm Transfer &amp; Mark as Paid</span>
+                  </button>
+                </form>
+              ) : (
+                <form action={markUnpaidAction}>
+                  <button
+                    type="submit"
+                    className="px-3 py-1.5 bg-[#21262d] hover:bg-neutral-800 border border-[#30363d] text-neutral-400 hover:text-white text-xs rounded transition-colors"
+                  >
+                    Revert to Pending
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
 

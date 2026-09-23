@@ -119,27 +119,13 @@ export async function processCheckout(input: CheckoutInput) {
       items: verifiedOrderItems,
     });
 
-    // 4. Initiate Payment with Payment Provider
-    const paymentProvider = getPaymentProvider();
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const callbackUrl = `${appUrl}/order-confirmation/${createdOrder.id}`;
-
-    const paymentSession = await paymentProvider.initiatePayment({
-      orderId: createdOrder.id,
-      orderNumber: createdOrder.orderNumber,
-      amount: createdOrder.total,
-      currency: createdOrder.currency,
-      customerEmail: createdOrder.customerEmail,
-      customerName: createdOrder.customerName,
-      callbackUrl,
-    });
-
+    // 4. Return Direct Bank Transfer Confirmation URL
     return {
       success: true,
       orderId: createdOrder.id,
       orderNumber: createdOrder.orderNumber,
-      checkoutUrl: paymentSession.checkoutUrl,
-      provider: paymentSession.provider,
+      checkoutUrl: `/order-confirmation/${createdOrder.id}`,
+      provider: "BANK_TRANSFER",
     };
   } catch (error: any) {
     console.error("Checkout processing error:", error);
@@ -147,6 +133,31 @@ export async function processCheckout(input: CheckoutInput) {
       success: false,
       error: error.message || "Failed to process checkout. Please try again.",
     };
+  }
+}
+
+export async function submitBankTransferProof(input: {
+  orderId: string;
+  senderName: string;
+  bankReference?: string;
+  customerNotes?: string;
+}) {
+  try {
+    const order = await dbRepository.getOrderById(input.orderId);
+    if (!order) {
+      return { success: false, error: "Order not found." };
+    }
+
+    const updated = await dbRepository.updateOrderTransferDetails(input.orderId, {
+      senderName: input.senderName,
+      bankReference: input.bankReference,
+      notes: input.customerNotes,
+    });
+
+    return { success: true, order: updated };
+  } catch (err: any) {
+    console.error("Error submitting transfer proof:", err);
+    return { success: false, error: err.message || "Failed to submit transfer confirmation." };
   }
 }
 

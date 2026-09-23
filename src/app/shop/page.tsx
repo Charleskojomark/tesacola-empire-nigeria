@@ -117,17 +117,32 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
         {/* Product Grid */}
         {products.length === 0 ? (
-          <div className="py-24 text-center max-w-md mx-auto space-y-4">
-            <h3 className="font-serif text-2xl text-white font-light">No Pieces Found</h3>
-            <p className="text-xs text-neutral-400 font-light leading-relaxed">
-              We could not find any items matching your active filter criteria. Clear filters to explore all available collections.
+          <div className="py-20 text-center max-w-lg mx-auto space-y-6 bg-[#0d0d0d] border border-[#1f1f1f] p-8 sm:p-12 rounded-sm">
+            <div className="w-10 h-0.5 bg-[#d6be67] mx-auto" />
+            <h3 className="font-serif text-2xl sm:text-3xl text-white font-light">
+              {activeCategory ? `${activeCategory.name} in Development` : "Catalogue in Development"}
+            </h3>
+            <p className="text-xs sm:text-sm text-neutral-400 font-light leading-relaxed">
+              {activeCategory
+                ? `Pieces for ${activeCategory.name.toLowerCase()} are currently being prepared in our workshop. In the interim, we accept bespoke commissions, custom sizing, and private orders.`
+                : "Our workshop is actively developing and finishing pieces for the online catalogue. We accept bespoke commissions, commercial production enquiries, and private orders."}
             </p>
-            <Link
-              href="/shop"
-              className="inline-block px-6 py-2.5 bg-[#d6be67] text-black text-xs uppercase tracking-widest font-semibold mt-4"
-            >
-              Reset Filters
-            </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+              <Link
+                href="/custom"
+                className="w-full sm:w-auto px-6 py-3 bg-[#d6be67] text-black text-xs uppercase tracking-widest font-semibold hover:bg-white transition-colors text-center"
+              >
+                Request Custom Enquiry
+              </Link>
+              {params.category && (
+                <Link
+                  href="/shop"
+                  className="w-full sm:w-auto px-6 py-3 border border-[#262626] text-neutral-300 text-xs uppercase tracking-widest hover:border-neutral-500 hover:text-white transition-colors text-center"
+                >
+                  View All Available Pieces
+                </Link>
+              )}
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

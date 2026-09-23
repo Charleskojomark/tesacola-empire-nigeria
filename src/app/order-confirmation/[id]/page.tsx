@@ -2,35 +2,26 @@ import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { dbRepository } from "@/db";
-import { verifyOrderPayment } from "@/app/actions/commerce";
 import { formatCurrency, formatDate } from "@/lib/utils";
-import { CheckCircle2, AlertCircle, Clock, PackageCheck, Truck, ArrowRight } from "lucide-react";
+import { getBankTransferConfig } from "@/lib/bank-transfer";
+import { TransferConfirmationForm } from "@/components/forms/TransferConfirmationForm";
+import { CheckCircle2, Clock, Building2, AlertCircle, ArrowRight, ShieldCheck } from "lucide-react";
 
 interface OrderConfirmationProps {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ reference?: string }>;
 }
 
 export default async function OrderConfirmationPage({
   params,
-  searchParams,
 }: OrderConfirmationProps) {
   const { id } = await params;
-  const { reference } = await searchParams;
 
-  let order = await dbRepository.getOrderById(id);
+  const order = await dbRepository.getOrderById(id);
   if (!order) {
     notFound();
   }
 
-  // If callback reference supplied and order is still pending, verify server-side
-  if (reference && order.paymentStatus === "PENDING") {
-    const result = await verifyOrderPayment(order.id, reference);
-    if (result.success && result.order) {
-      order = result.order;
-    }
-  }
-
+  const bankConfig = getBankTransferConfig();
   const isPaid = order.paymentStatus === "PAID";
 
   return (
@@ -43,10 +34,6 @@ export default async function OrderConfirmationPage({
               <div className="w-16 h-16 rounded-full bg-emerald-950/40 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
-            ) : order.paymentStatus === "FAILED" ? (
-              <div className="w-16 h-16 rounded-full bg-red-950/40 border border-red-500/40 flex items-center justify-center text-red-400">
-                <AlertCircle className="w-8 h-8" />
-              </div>
             ) : (
               <div className="w-16 h-16 rounded-full bg-amber-950/40 border border-amber-500/40 flex items-center justify-center text-amber-400">
                 <Clock className="w-8 h-8" />
@@ -56,26 +43,85 @@ export default async function OrderConfirmationPage({
 
           <div className="space-y-1">
             <span className="text-[11px] uppercase tracking-[0.25em] text-[#d6be67] font-light">
-              Tesacola Client Order
+              Tesacola Customer Order
             </span>
             <h1 className="font-serif text-2xl sm:text-3xl font-light text-white">
               {isPaid
                 ? "Payment Verified & Order Confirmed"
-                : order.paymentStatus === "FAILED"
-                ? "Payment Unsuccessful"
-                : "Payment Authorization Pending"}
+                : "Order Placed — Awaiting Bank Transfer"}
             </h1>
             <p className="text-xs text-neutral-400 font-light">
-              Order Reference: <strong className="text-white">{order.orderNumber}</strong>
+              Order Reference: <strong className="text-white font-mono">{order.orderNumber}</strong>
             </p>
           </div>
 
           <p className="text-xs text-neutral-300 max-w-lg mx-auto leading-relaxed pt-2">
             {isPaid
-              ? `Thank you, ${order.customerName}. Your order has been entered into the Tesacola workshop dispatch queue. A confirmation has been recorded for ${order.customerEmail}.`
-              : "We are awaiting final webhook confirmation from the payment processor. If you experienced an issue during checkout, you may retry payment below."}
+              ? `Thank you, ${order.customerName}. Your payment has been verified. Your order is now entered into the workshop dispatch queue.`
+              : `Thank you, ${order.customerName}. Your order has been placed. Please complete your bank transfer using the account details and order reference below.`}
           </p>
         </div>
+
+        {/* Bank Transfer Instructions Card (Only shown if pending) */}
+        {!isPaid && (
+          <div className="mt-8 p-8 bg-[#0d0d0d] border border-[#d6be67]/30 space-y-6">
+            <div className="flex items-center gap-2 pb-4 border-b border-[#1f1f1f]">
+              <Building2 className="w-5 h-5 text-[#d6be67]" />
+              <h2 className="font-serif text-lg text-white font-medium">
+                Bank Transfer Instructions
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div className="p-4 bg-[#141414] border border-[#222] space-y-1">
+                <span className="text-neutral-500 uppercase tracking-wider text-[10px] block">
+                  Bank Name
+                </span>
+                <span className="text-white font-medium text-sm block">{bankConfig.bankName}</span>
+              </div>
+
+              <div className="p-4 bg-[#141414] border border-[#222] space-y-1">
+                <span className="text-neutral-500 uppercase tracking-wider text-[10px] block">
+                  Account Name
+                </span>
+                <span className="text-white font-medium text-sm block">{bankConfig.accountName}</span>
+              </div>
+
+              <div className="p-4 bg-[#141414] border border-[#222] space-y-1">
+                <span className="text-neutral-500 uppercase tracking-wider text-[10px] block">
+                  Account Number
+                </span>
+                <span className="text-[#d6be67] font-mono font-bold text-base block tracking-wider">
+                  {bankConfig.accountNumber}
+                </span>
+              </div>
+
+              <div className="p-4 bg-[#141414] border border-[#222] space-y-1">
+                <span className="text-neutral-500 uppercase tracking-wider text-[10px] block">
+                  Exact Amount to Transfer
+                </span>
+                <span className="text-white font-serif font-bold text-base block text-emerald-400">
+                  {formatCurrency(order.total)}
+                </span>
+              </div>
+            </div>
+
+            <div className="p-4 bg-amber-950/20 border border-amber-900/40 rounded text-xs space-y-1">
+              <strong className="text-amber-300 block font-medium">Important Narration:</strong>
+              <p className="text-neutral-300 leading-relaxed font-light">
+                Please include your Order Number <strong className="text-white font-mono">{order.orderNumber}</strong> in the transfer remarks/narration so our workshop can rapidly match your payment.
+              </p>
+            </div>
+
+            {/* Client Interactive Transfer Confirmation Form */}
+            <TransferConfirmationForm
+              orderId={order.id}
+              orderNumber={order.orderNumber}
+              accountNumber={bankConfig.accountNumber}
+              amount={order.total}
+            />
+          </div>
+        )}
 
         {/* Order Details Breakdown */}
         <div className="mt-8 p-8 bg-[#0a0a0a] border border-[#1f1f1f] space-y-6">
@@ -91,7 +137,7 @@ export default async function OrderConfirmationPage({
                   isPaid ? "text-emerald-400" : "text-amber-400"
                 }`}
               >
-                {order.paymentStatus}
+                {isPaid ? "PAID" : "Awaiting Transfer"}
               </span>
             </div>
             <div>
@@ -134,7 +180,7 @@ export default async function OrderConfirmationPage({
               <span className="text-white">{formatCurrency(order.subtotal)}</span>
             </div>
             <div className="flex justify-between text-neutral-400">
-              <span>Delivery Fee</span>
+              <span>Insured Delivery</span>
               <span className="text-white">
                 {order.shippingFee === 0 ? "Free" : formatCurrency(order.shippingFee)}
               </span>
@@ -173,10 +219,10 @@ export default async function OrderConfirmationPage({
             Continue Shopping
           </Link>
           <Link
-            href="/account"
+            href="/contact"
             className="w-full sm:w-auto px-8 py-3.5 border border-white/20 text-white text-xs uppercase tracking-widest text-center hover:border-white transition-colors"
           >
-            View in My Account
+            Need Assistance? Contact Us
           </Link>
         </div>
       </div>

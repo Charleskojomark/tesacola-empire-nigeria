@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { formatCurrency } from "@/lib/utils";
 import { processCheckout } from "@/app/actions/commerce";
-import { ShieldCheck, Lock, ArrowRight, Loader2, AlertCircle } from "lucide-react";
+import { ShieldCheck, Lock, ArrowRight, Loader2, AlertCircle, Building2 } from "lucide-react";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -98,7 +98,7 @@ export default function CheckoutPage() {
             <span className="text-[#d6be67]">Secure Checkout</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl font-light text-white flex items-center gap-3">
-            <span>Client Order &amp; Delivery</span>
+            <span>Customer Order &amp; Delivery</span>
             <Lock className="w-5 h-5 text-[#d6be67]" />
           </h1>
         </div>
@@ -313,8 +313,19 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
+              {/* Payment Method Details (Point 26) */}
+              <div className="p-4 bg-[#121212] border border-[#262626] space-y-2 rounded-sm text-xs">
+                <div className="flex items-center gap-2 text-[#d6be67] font-medium">
+                  <Building2 className="w-4 h-4 flex-shrink-0" />
+                  <span>Payment Method: Direct Bank Transfer</span>
+                </div>
+                <p className="text-[11px] text-neutral-400 font-light leading-relaxed">
+                  Upon placing your order, verified bank account details will be presented with your unique Order Reference for transfer via your banking app or USSD.
+                </p>
+              </div>
+
               {/* Submit Button */}
-              <div className="pt-4">
+              <div className="pt-2">
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -323,20 +334,20 @@ export default function CheckoutPage() {
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Securing Order Session...</span>
+                      <span>Recording Order...</span>
                     </>
                   ) : (
                     <>
-                      <span>Authorize Payment ({formatCurrency(grandTotal)})</span>
+                      <span>Place Order &amp; View Bank Details</span>
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>
               </div>
 
-              <div className="flex items-center justify-center gap-2 text-[11px] text-neutral-500 pt-2">
+              <div className="flex items-center justify-center gap-2 text-[11px] text-neutral-500 pt-1">
                 <ShieldCheck className="w-4 h-4 text-[#d6be67]" />
-                <span>256-Bit Encrypted Payment Authorization</span>
+                <span>Verified Direct Workshop Order</span>
               </div>
             </div>
           </div>

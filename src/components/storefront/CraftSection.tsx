@@ -8,26 +8,30 @@ export function CraftSection() {
     {
       icon: Layers,
       number: "01",
-      title: "Raw Skin Selection",
-      description: "Each hide is hand-inspected for grain density, tensile balance, and organic surface uniformity.",
+      title: "Material Selection",
+      description:
+        "Every piece begins with careful material selection. We consider the character, strength, texture, colour and intended use of the leather before production begins.",
     },
     {
       icon: Scissors,
       number: "02",
-      title: "Precision Pattern Clicking",
-      description: "Trained clickers hand-cut individual pieces along the natural stretch lines of the leather.",
+      title: "Pattern & Cutting",
+      description:
+        "Patterns are carefully prepared and individual components are cut with attention to proportion, placement and the natural character of the material.",
     },
     {
       icon: Hammer,
       number: "03",
-      title: "Ergonomic Lasting & Welting",
-      description: "Pulled over anatomical wooden lasts to lock in foot support and enduring structural form.",
+      title: "Construction & Assembly",
+      description:
+        "Each piece is progressively shaped, assembled and refined by skilled hands, with construction methods selected according to the design and intended use of the product.",
     },
     {
       icon: Sparkles,
       number: "04",
-      title: "Hand-Burnishing & Dressing",
-      description: "Natural beeswax and heated irons seal edges with mirror-buffed champagne luster.",
+      title: "Finishing",
+      description:
+        "The final character is created through careful edge work, finishing, polishing, detailing and inspection. It is this final discipline that gives a Tesacola piece its finished presence.",
     },
   ];
 
@@ -38,10 +42,10 @@ export function CraftSection() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-black/10 gap-6">
           <div>
             <span className="text-[11px] uppercase tracking-[0.25em] text-[#ac8d3e] font-semibold block mb-2">
-              The Architecture of Making
+              The Craft &amp; Method
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-neutral-900 max-w-xl leading-tight">
-              Quiet Confidence Born From Precision
+              Considered Design &amp; Disciplined Finishing
             </h2>
           </div>
           <Link
@@ -91,17 +95,17 @@ export function CraftSection() {
           </div>
           <div className="space-y-6 md:pl-6">
             <h3 className="font-serif text-2xl sm:text-3xl font-light text-neutral-900 leading-snug">
-              Every curve honors the material. Every stitch guarantees the promise.
+              At Tesacola, craftsmanship is the meeting point of good materials, considered design, skilled hands and disciplined finishing.
             </h3>
             <p className="text-sm text-neutral-700 leading-relaxed font-light">
-              Tesacola rejects the shortcuts of mass disposable manufacturing. We believe luxury in Nigeria should mean heavy-gauge hardware, dense grain hides, and construction methods that allow shoes and leather goods to be resoled, reconditioned, and handed down.
+              We select leather and other materials according to the character, design and intended use of each piece. Construction methods are chosen according to the design, product category and intended use, ensuring each piece achieves its finished presence.
             </p>
             <div>
               <Link
-                href="/craft/materials"
+                href="/colours"
                 className="inline-block px-6 py-3 bg-black text-white hover:bg-neutral-800 text-xs uppercase tracking-widest transition-colors font-medium"
               >
-                Discover Our Materials
+                Colour &amp; Material Guide
               </Link>
             </div>
           </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cinzel, Playfair_Display, Plus_Jakarta_Sans, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
+import { AudioProvider } from "@/lib/audio-context";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
@@ -37,33 +38,31 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
   title: {
-    default: "Tesacola Empire | Premium Leather Craftsmanship & Manufacturing",
-    template: "%s | Tesacola Empire",
+    default: "Tesacola Empire Nigeria | Premium Nigerian Leather Craftsmanship",
+    template: "%s | Tesacola Empire Nigeria",
   },
   description:
-    "Official digital platform for Tesacola Empire. Artisanal handcrafted footwear, executive briefcases, belts, and industrial leather manufacturing. Enjoying Trust & Quality.",
+    "Tesacola Empire Nigeria is building a distinctive world of premium leather craftsmanship, thoughtful design and commercial possibility — rooted in Nigeria and created with a global outlook.",
   keywords: [
-    "Tesacola Empire",
     "Tesacola Empire Nigeria",
     "Nigerian Leather Footwear",
-    "Wholecut Oxford Shoes",
-    "Executive Leather Bags",
-    "African Leather Manufacturing",
+    "Handcrafted Leather Goods",
+    "Bespoke Shoemaking Nigeria",
+    "Commercial Leather Production",
     "Made in Nigeria Luxury",
-    "Bespoke Shoemaking",
   ],
-  authors: [{ name: "Tesacola Empire" }],
+  authors: [{ name: "Tesacola Empire Nigeria" }],
   openGraph: {
-    title: "Tesacola Empire | Premium Leather Craftsmanship",
-    description: "Enjoying Trust & Quality. Discover our handcrafted footwear and commercial leather manufacturing.",
+    title: "Tesacola Empire Nigeria | Premium Nigerian Leather Craftsmanship",
+    description: "Tesacola is building its own world. Premium Nigerian leather craftsmanship, bespoke design and commercial production built with a global outlook.",
     url: "https://tesacola.com",
-    siteName: "Tesacola Empire",
+    siteName: "Tesacola Empire Nigeria",
     images: [
       {
         url: "/tesacol_logo.png",
         width: 800,
         height: 800,
-        alt: "Tesacola Empire Official Crest",
+        alt: "Tesacola Empire Nigeria Official Crest",
       },
     ],
     locale: "en_NG",
@@ -82,12 +81,14 @@ export default function RootLayout({
       className={`${cinzel.variable} ${playfair.variable} ${jakarta.variable} ${cormorant.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col bg-black text-white font-sans selection:bg-[#d6be67] selection:text-black">
-        <CartProvider>
-          <Header />
-          <CartDrawer />
-          <main className="flex-1 flex flex-col">{children}</main>
-          <Footer />
-        </CartProvider>
+        <AudioProvider>
+          <CartProvider>
+            <Header />
+            <CartDrawer />
+            <main className="flex-1 flex flex-col">{children}</main>
+            <Footer />
+          </CartProvider>
+        </AudioProvider>
       </body>
     </html>
   );
