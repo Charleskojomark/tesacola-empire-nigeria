@@ -180,3 +180,41 @@ export async function adminDeleteProduct(id: string) {
     return { success: false, error: error.message };
   }
 }
+
+export async function adminDeleteCustomEnquiry(id: string) {
+  try {
+    const session = await requireAuth(["SUPER_ADMIN", "ADMIN"]);
+    await dbRepository.deleteCustomEnquiry(id);
+    await dbRepository.logAdminAction({
+      userId: session.userId,
+      userEmail: session.email,
+      action: "DELETE_CUSTOM_ENQUIRY",
+      entityType: "CUSTOM_ENQUIRY",
+      entityId: id,
+      details: `Deleted custom enquiry ID ${id}`,
+    });
+    revalidatePath("/admin/custom-enquiries");
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function adminDeleteBusinessEnquiry(id: string) {
+  try {
+    const session = await requireAuth(["SUPER_ADMIN", "ADMIN"]);
+    await dbRepository.deleteBusinessEnquiry(id);
+    await dbRepository.logAdminAction({
+      userId: session.userId,
+      userEmail: session.email,
+      action: "DELETE_BUSINESS_ENQUIRY",
+      entityType: "BUSINESS_ENQUIRY",
+      entityId: id,
+      details: `Deleted business enquiry ID ${id}`,
+    });
+    revalidatePath("/admin/business-enquiries");
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}

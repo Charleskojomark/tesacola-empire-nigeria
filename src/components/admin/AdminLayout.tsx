@@ -33,7 +33,7 @@ export function AdminLayout({ children, userEmail, userRole }: AdminLayoutProps)
   const navigation = [
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
     { name: "Products & Inventory", href: "/admin/products", icon: Package },
-    { name: "Orders & Fulfillment", href: "/admin/orders", icon: ShoppingBag },
+    { name: "Orders & Transactions", href: "/admin/orders", icon: ShoppingBag },
     { name: "Custom Enquiries", href: "/admin/custom-enquiries", icon: Sparkles },
     { name: "Business & B2B Leads", href: "/admin/business-enquiries", icon: Briefcase },
     { name: "Categories", href: "/admin/categories", icon: FolderTree },
@@ -58,7 +58,7 @@ export function AdminLayout({ children, userEmail, userRole }: AdminLayoutProps)
                 TESACOLA
               </span>
               <span className="text-[10px] text-[#d6be67] tracking-wider uppercase font-medium">
-                Control Console
+                Admin Panel
               </span>
             </div>
           </div>
@@ -180,7 +180,7 @@ export function AdminLayout({ children, userEmail, userRole }: AdminLayoutProps)
 
           <div className="flex items-center gap-2 sm:gap-4 text-xs">
             <span className="hidden md:inline text-[11px] text-neutral-400">
-              Serverless Neon Gateway: Active
+              All Systems Operational
             </span>
             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           </div>

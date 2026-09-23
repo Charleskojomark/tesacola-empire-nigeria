@@ -428,7 +428,7 @@ class TesacolaDataRepository {
   }
 
   // --- ORDERS ---
-  async getOrders(params?: { status?: OrderStatus; search?: string; userId?: string }): Promise<Order[]> {
+  async getOrders(params?: { status?: OrderStatus; paymentStatus?: PaymentStatus; search?: string; userId?: string }): Promise<Order[]> {
     if (neonSql) {
       try {
         const rows = (await neonSql`
@@ -437,6 +437,7 @@ class TesacolaDataRepository {
         let result = rows.map(rowToOrder);
         if (params?.userId) result = result.filter((o) => o.userId === params.userId);
         if (params?.status) result = result.filter((o) => o.orderStatus === params.status);
+        if (params?.paymentStatus) result = result.filter((o) => o.paymentStatus === params.paymentStatus);
         if (params?.search) {
           const q = params.search.toLowerCase();
           result = result.filter(
@@ -454,6 +455,7 @@ class TesacolaDataRepository {
     let result = [...this.orders];
     if (params?.userId) result = result.filter((o) => o.userId === params.userId);
     if (params?.status) result = result.filter((o) => o.orderStatus === params.status);
+    if (params?.paymentStatus) result = result.filter((o) => o.paymentStatus === params.paymentStatus);
     if (params?.search) {
       const q = params.search.toLowerCase();
       result = result.filter(
@@ -747,6 +749,34 @@ class TesacolaDataRepository {
     return item;
   }
 
+  async deleteCustomEnquiry(id: string): Promise<boolean> {
+    if (neonSql) {
+      try {
+        await neonSql`DELETE FROM custom_enquiries WHERE id = ${id}`;
+        return true;
+      } catch (err) {
+        console.error("deleteCustomEnquiry DB error:", err);
+      }
+    }
+    const before = this.customEnquiries.length;
+    this.customEnquiries = this.customEnquiries.filter((e) => e.id !== id);
+    return this.customEnquiries.length < before;
+  }
+
+  async deleteBusinessEnquiry(id: string): Promise<boolean> {
+    if (neonSql) {
+      try {
+        await neonSql`DELETE FROM business_enquiries WHERE id = ${id}`;
+        return true;
+      } catch (err) {
+        console.error("deleteBusinessEnquiry DB error:", err);
+      }
+    }
+    const before = this.businessEnquiries.length;
+    this.businessEnquiries = this.businessEnquiries.filter((e) => e.id !== id);
+    return this.businessEnquiries.length < before;
+  }
+
   // --- JOURNAL ---
   async getJournalPosts(publishedOnly = true): Promise<JournalPost[]> {
     if (neonSql) {
@@ -867,6 +897,7 @@ class TesacolaDataRepository {
         const [activeCount] = (await neonSql`SELECT COUNT(*) as count FROM products WHERE is_published = true`) as any[];
         const [orderCount] = (await neonSql`SELECT COUNT(*) as count FROM orders`) as any[];
         const [pendingCount] = (await neonSql`SELECT COUNT(*) as count FROM orders WHERE order_status IN ('NEW', 'PROCESSING')`) as any[];
+        const [paidCount] = (await neonSql`SELECT COUNT(*) as count FROM orders WHERE payment_status = 'PAID'`) as any[];
         const [revenueRow] = (await neonSql`SELECT COALESCE(SUM(total), 0) as revenue FROM orders WHERE payment_status = 'PAID'`) as any[];
         const [bizNewCount] = (await neonSql`SELECT COUNT(*) as count FROM business_enquiries WHERE status = 'NEW'`) as any[];
         const [custNewCount] = (await neonSql`SELECT COUNT(*) as count FROM custom_enquiries WHERE status = 'NEW'`) as any[];
@@ -878,7 +909,7 @@ class TesacolaDataRepository {
           activeProducts: Number(activeCount.count),
           totalOrders: Number(orderCount.count),
           pendingOrders: Number(pendingCount.count),
-          paidOrders: 0,
+          paidOrders: Number(paidCount.count),
           totalRevenue: Number(revenueRow.revenue),
           newBusinessEnquiries: Number(bizNewCount.count),
           newCustomEnquiries: Number(custNewCount.count),

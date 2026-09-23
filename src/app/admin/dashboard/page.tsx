@@ -61,7 +61,7 @@ export default async function AdminDashboardPage() {
                 {formatCurrency(metrics.totalRevenue)}
               </span>
               <span className="text-[11px] text-neutral-500 block mt-1">
-                From {metrics.paidOrders} confirmed client orders
+                From {metrics.paidOrders} confirmed customer transactions
               </span>
             </div>
           </div>
@@ -112,7 +112,7 @@ export default async function AdminDashboardPage() {
           <div className="bg-[#161b22] border border-[#30363d] rounded-lg overflow-hidden">
             <div className="p-4 border-b border-[#30363d] flex items-center justify-between">
               <h3 className="text-xs font-semibold text-white uppercase tracking-wider">
-                Recent Client Orders
+                Recent Orders &amp; Transactions
               </h3>
               <Link
                 href="/admin/orders"

@@ -5,21 +5,22 @@ import { getSession } from "@/lib/auth";
 import { dbRepository } from "@/db";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { formatCurrency, formatDate } from "@/lib/utils";
-import { Eye } from "lucide-react";
+import { Eye, CreditCard, ShieldCheck } from "lucide-react";
 
 export default async function AdminOrdersPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string; search?: string }>;
+  searchParams: Promise<{ status?: string; payment?: string; search?: string }>;
 }) {
   const session = await getSession();
   if (!session || session.role === "CUSTOMER") {
     redirect("/admin/login");
   }
 
-  const { status, search } = await searchParams;
+  const { status, payment, search } = await searchParams;
   const orders = await dbRepository.getOrders({
     status: status as any,
+    paymentStatus: payment as any,
     search,
   });
 
@@ -28,17 +29,20 @@ export default async function AdminOrdersPage({
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#30363d]">
           <div>
-            <h1 className="text-xl font-semibold text-white">Client Order Pipeline</h1>
+            <h1 className="text-xl font-semibold text-white">Orders &amp; Payment Transactions</h1>
             <p className="text-xs text-neutral-400 mt-1">
-              Fulfillment processing, logistics tracking assignment, and payment records.
+              Customer orders, bank transfer transaction verification, and logistics tracking.
             </p>
           </div>
+          <span className="text-xs text-neutral-500">{orders.length} record{orders.length === 1 ? "" : "s"}</span>
         </div>
 
         {/* Filter Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 text-xs scrollbar-hide">
           {[
-            { label: `All Orders (${orders.length})`, href: "/admin/orders", active: !status },
+            { label: "All Records", href: "/admin/orders", active: !status && !payment },
+            { label: "Paid / Confirmed", href: "/admin/orders?payment=PAID", active: payment === "PAID" },
+            { label: "Pending Verification", href: "/admin/orders?payment=PENDING", active: payment === "PENDING" },
             { label: "New Orders", href: "/admin/orders?status=NEW", active: status === "NEW" },
             { label: "In Workshop", href: "/admin/orders?status=PROCESSING", active: status === "PROCESSING" },
             { label: "Dispatched", href: "/admin/orders?status=SHIPPED", active: status === "SHIPPED" },
@@ -62,12 +66,12 @@ export default async function AdminOrdersPage({
           <table className="w-full text-left text-xs text-neutral-300">
             <thead className="bg-[#21262d] text-neutral-400 uppercase text-[10px] tracking-wider border-b border-[#30363d]">
               <tr>
-                <th className="py-3.5 px-4">Order #</th>
+                <th className="py-3.5 px-4">Order / Ref #</th>
                 <th className="py-3.5 px-4">Customer</th>
                 <th className="py-3.5 px-4">Date</th>
-                <th className="py-3.5 px-4">Payment</th>
+                <th className="py-3.5 px-4">Payment Verification</th>
                 <th className="py-3.5 px-4">Fulfillment</th>
-                <th className="py-3.5 px-4">Total</th>
+                <th className="py-3.5 px-4">Transaction Total</th>
                 <th className="py-3.5 px-4 text-right">Action</th>
               </tr>
             </thead>
@@ -75,7 +79,7 @@ export default async function AdminOrdersPage({
               {orders.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="py-12 text-center text-neutral-500">
-                    No orders matching criteria found.
+                    No orders or transactions matching criteria found. When customers complete checkout via bank transfer, their order and payment records will appear here for atelier verification.
                   </td>
                 </tr>
               ) : (
@@ -97,7 +101,7 @@ export default async function AdminOrdersPage({
                             : "bg-amber-950 text-amber-400 border border-amber-800"
                         }`}
                       >
-                        {order.paymentStatus}
+                        {order.paymentStatus === "PAID" ? "PAID / CONFIRMED" : "PENDING VERIFICATION"}
                       </span>
                     </td>
                     <td className="py-3 px-4">
@@ -105,7 +109,7 @@ export default async function AdminOrdersPage({
                         {order.orderStatus}
                       </span>
                     </td>
-                    <td className="py-3 px-4 font-medium text-white">
+                    <td className="py-3 px-4 font-semibold text-white">
                       {formatCurrency(order.total)}
                     </td>
                     <td className="py-3 px-4 text-right">
@@ -114,7 +118,7 @@ export default async function AdminOrdersPage({
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#21262d] hover:bg-[#30363d] text-neutral-200 transition-colors"
                       >
                         <Eye className="w-3.5 h-3.5 text-[#d6be67]" />
-                        <span>Manage</span>
+                        <span>View Dossier</span>
                       </Link>
                     </td>
                   </tr>
@@ -128,7 +132,7 @@ export default async function AdminOrdersPage({
         <div className="sm:hidden space-y-3">
           {orders.length === 0 ? (
             <div className="bg-[#161b22] border border-[#30363d] p-8 text-center text-xs text-neutral-500 rounded-lg">
-              No orders matching criteria found.
+              No orders or transactions matching criteria found. When customers complete checkout via bank transfer, their order and payment records will appear here for atelier verification.
             </div>
           ) : (
             orders.map((order) => (
@@ -143,7 +147,7 @@ export default async function AdminOrdersPage({
                     className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#21262d] hover:bg-[#30363d] text-neutral-200 text-xs transition-colors flex-shrink-0"
                   >
                     <Eye className="w-3.5 h-3.5 text-[#d6be67]" />
-                    Manage
+                    View Dossier
                   </Link>
                 </div>
                 <div className="border-t border-[#30363d] pt-3 space-y-2 text-xs">
@@ -152,11 +156,11 @@ export default async function AdminOrdersPage({
                     <span className="text-white font-medium">{order.customerName}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-neutral-500">Total</span>
+                    <span className="text-neutral-500">Transaction Amount</span>
                     <span className="text-white font-semibold">{formatCurrency(order.total)}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-neutral-500">Payment</span>
+                    <span className="text-neutral-500">Payment Verification</span>
                     <span
                       className={`inline-block px-2 py-0.5 rounded text-[10px] font-medium ${
                         order.paymentStatus === "PAID"
@@ -164,11 +168,11 @@ export default async function AdminOrdersPage({
                           : "bg-amber-950 text-amber-400 border border-amber-800"
                       }`}
                     >
-                      {order.paymentStatus}
+                      {order.paymentStatus === "PAID" ? "PAID / CONFIRMED" : "PENDING VERIFICATION"}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-neutral-500">Status</span>
+                    <span className="text-neutral-500">Fulfillment Status</span>
                     <span className="inline-block px-2 py-0.5 rounded text-[10px] font-medium bg-[#21262d] text-neutral-200 border border-[#30363d]">
                       {order.orderStatus}
                     </span>
