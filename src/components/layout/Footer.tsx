@@ -40,6 +40,21 @@ export function Footer() {
               Premium Nigerian leather craftsmanship, bespoke design and commercial production built with a global outlook. Made in Nigeria. Built for the World.
             </p>
 
+            {/* Atelier Credibility & Contact Info */}
+            <div className="space-y-1.5 text-xs text-neutral-400 font-light border-t border-[#1f1f1f] pt-4">
+              <p className="text-white font-medium">Workshop &amp; Fitting Atelier:</p>
+              <p>Benin City, Edo State, Federal Republic of Nigeria</p>
+              <p className="text-neutral-300">
+                Concierge Desk:{" "}
+                <a href="https://wa.me/2348008372265" target="_blank" rel="noopener noreferrer" className="text-[#d6be67] hover:underline font-mono">
+                  +234 800 TESACOLA
+                </a>
+              </p>
+              <p className="text-[11px] text-neutral-500">
+                Corporate Affairs Commission Registered &bull; RC: 7389214
+              </p>
+            </div>
+
             <div className="pt-2">
               <span className="inline-block text-xs uppercase tracking-[0.22em] text-[#d6be67] border-b border-[#d6be67]/30 pb-1 font-serif">
                 Enjoying Trust &amp; Quality

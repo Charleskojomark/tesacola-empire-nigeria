@@ -1,8 +1,9 @@
 import { MetadataRoute } from "next";
 import { dbRepository } from "@/db";
+import { getBaseUrl } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const baseUrl = getBaseUrl();
   const now = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [

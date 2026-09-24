@@ -6,6 +6,8 @@ import { AudioProvider } from "@/lib/audio-context";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp";
+import { getBaseUrl, SITE_CONFIG } from "@/lib/site";
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -35,27 +37,31 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
+const baseUrl = getBaseUrl();
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
+  metadataBase: new URL(baseUrl),
   title: {
-    default: "Tesacola Empire Nigeria | Premium Nigerian Leather Craftsmanship",
+    default: "Tesacola Empire Nigeria | Luxury Handcrafted Footwear & Leather Goods",
     template: "%s | Tesacola Empire Nigeria",
   },
   description:
-    "Tesacola Empire Nigeria is building a distinctive world of premium leather craftsmanship, thoughtful design and commercial possibility — rooted in Nigeria and created with a global outlook.",
+    "Tesacola Empire Nigeria is an artisanal Nigerian luxury house building a distinctive world of handcrafted leather footwear, bespoke lasts, and fine accessories — rooted in Benin City, Nigeria and created for the world.",
   keywords: [
     "Tesacola Empire Nigeria",
-    "Nigerian Leather Footwear",
-    "Handcrafted Leather Goods",
-    "Bespoke Shoemaking Nigeria",
-    "Commercial Leather Production",
+    "Nigerian Luxury Leather",
+    "Handcrafted Men's Shoes Nigeria",
+    "Bespoke Shoemaking Benin City",
+    "Goodyear Welted Shoes Nigeria",
+    "Commercial Leather Manufacturing Nigeria",
     "Made in Nigeria Luxury",
   ],
   authors: [{ name: "Tesacola Empire Nigeria" }],
   openGraph: {
-    title: "Tesacola Empire Nigeria | Premium Nigerian Leather Craftsmanship",
-    description: "Tesacola is building its own world. Premium Nigerian leather craftsmanship, bespoke design and commercial production built with a global outlook.",
-    url: "https://tesacola.com",
+    title: "Tesacola Empire Nigeria | Luxury Handcrafted Footwear & Leather Goods",
+    description:
+      "Tesacola is building its own world. Premium Nigerian leather craftsmanship, bespoke shoemaking and commercial leather production built with a global outlook.",
+    url: baseUrl,
     siteName: "Tesacola Empire Nigeria",
     images: [
       {
@@ -68,6 +74,17 @@ export const metadata: Metadata = {
     locale: "en_NG",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tesacola Empire Nigeria | Luxury Handcrafted Footwear & Leather Goods",
+    description:
+      "Premium Nigerian leather craftsmanship, bespoke shoemaking and commercial leather production built with a global outlook.",
+    images: ["/tesacol_logo.png"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/tesacol_logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -75,11 +92,41 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE_CONFIG.name,
+    legalName: SITE_CONFIG.legalName,
+    url: baseUrl,
+    logo: `${baseUrl}/tesacol_logo.png`,
+    description: SITE_CONFIG.description,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: SITE_CONFIG.address.street,
+      addressLocality: SITE_CONFIG.address.city,
+      addressRegion: SITE_CONFIG.address.state,
+      addressCountry: SITE_CONFIG.address.countryCode,
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: SITE_CONFIG.whatsappDisplay,
+      contactType: "customer service",
+      email: SITE_CONFIG.email,
+      availableLanguage: ["English"],
+    },
+  };
+
   return (
     <html
       lang="en"
       className={`${cinzel.variable} ${playfair.variable} ${jakarta.variable} ${cormorant.variable} h-full antialiased dark`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-black text-white font-sans selection:bg-[#d6be67] selection:text-black">
         <AudioProvider>
           <CartProvider>
@@ -87,6 +134,7 @@ export default function RootLayout({
             <CartDrawer />
             <main className="flex-1 flex flex-col">{children}</main>
             <Footer />
+            <FloatingWhatsApp />
           </CartProvider>
         </AudioProvider>
       </body>
